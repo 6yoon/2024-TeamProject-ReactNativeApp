@@ -1,13 +1,12 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import Header from "./component/Header";
+import Footer from "./component/Footer";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import * as Font from "expo-font";
-import { useEffect, useState } from "react";
 
 const App = () => {
   const today = new Date();
-
   const [isReady, setIsReady] = useState(false);
 
   useEffect(async () => {
@@ -32,6 +31,7 @@ const App = () => {
           <View style={styles.body}>
             <Header date={today} />
           </View>
+          <Footer /> 
         </SafeAreaView>
       )}
     </SafeAreaProvider>
@@ -45,8 +45,6 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    /* alignItems: "center",
-    justifyContent: "center", */
   },
 });
 

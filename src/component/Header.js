@@ -3,11 +3,11 @@ import { StyleSheet, Text, View } from "react-native";
 function Header({ date }) {
   const month = date.getMonth() + 1;
   const day = date.getDate();
-  const monthday = `${month}월 ${day}일`;
+  const monthDay = `${month}월 ${day}일`;
   return (
     <>
         <View style={styles.header}>
-          <Text style={styles.text}>{monthday}</Text>
+          <Text style={styles.text}>{monthDay}</Text>
         </View>
     </>
   );

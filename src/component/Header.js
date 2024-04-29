@@ -23,9 +23,10 @@ const styles = StyleSheet.create({
     borderBottomStyle: 'solid',
   },
   text: {
-    fontSize: 30,
+    fontSize: 34,
     fontFamily: "Pretendard8",
-    marginLeft: 50,
+    marginLeft: 40,
+    marginTop: 14,
   },
 });
 

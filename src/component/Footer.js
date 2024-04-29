@@ -1,13 +1,29 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import myPage from "../../public/images/FooterMyPage.png";
+import home from "../../public/images/FooterHome.png";
+import claendar from "../../public/images/FooterCalendar.png";
+import chat from "../../public/images/FooterChat.png";
 
 const Footer = () => {
   return (
     <View style={styles.footer}>
-      <Text style={styles.link}>Home</Text>
-      <Text style={styles.link}>Home</Text>
-      <Text style={styles.link}>Home</Text>
-      <Text style={styles.link}>Home</Text>
+      <TouchableOpacity style={styles.button}>
+        <Image source={home}></Image>
+        <Text style={styles.link}>Home</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button}>
+        <Image source={claendar}></Image>
+        <Text style={styles.link}>Calendar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button}>
+        <Image source={chat}></Image>
+        <Text style={styles.link}>Chat</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button}>
+        <Image source={myPage}></Image>
+        <Text style={styles.link}>my page</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -17,17 +33,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: 'white',
-    height: 83,
+    backgroundColor: '#fff',
+    height: 65,
     borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    borderBottomColor: '#ccc'
+    borderTopColor: '#eee',
   },
   link: {
-    marginTop: 36,
+    marginTop: 6,
     fontSize: 10,
     fontWeight: 'medium',
     color: '#333',
+    fontFamily: 'Pretendard6'
+  },
+  button: {
+    alignItems: 'center',
+    marginTop: 20,
   },
 });
 

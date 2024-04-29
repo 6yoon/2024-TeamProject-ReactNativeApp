@@ -15,7 +15,7 @@ function Header({ date }) {
 
 const styles = StyleSheet.create({
   header: {
-    flex: 0.1,
+    flex: 0.11,
     backgroundColor: "#fff",
     justifyContent: "center",
     borderBottomWidth: 1,

@@ -1,29 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import myPage from "../../public/images/FooterMyPage.png";
-import home from "../../public/images/FooterHome.png";
-import claendar from "../../public/images/FooterCalendar.png";
-import chat from "../../public/images/FooterChat.png";
+import mypage from "../../public/images/mypage.png";
+import home from "../../public/images/home.png";
+import calendar from "../../public/images/calendar.png";
+import diary from "../../public/images/diary.png";
 
 const Footer = () => {
   return (
     <View style={styles.footer}>
-      <TouchableOpacity style={styles.button}>
-        <Image source={home}></Image>
-        <Text style={styles.link}>Home</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Image source={claendar}></Image>
-        <Text style={styles.link}>Calendar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Image source={chat}></Image>
-        <Text style={styles.link}>Chat</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Image source={myPage}></Image>
-        <Text style={styles.link}>my page</Text>
-      </TouchableOpacity>
+      <Image source={home} style={styles.img}></Image>
+      <Image source={calendar} style={styles.img}></Image>
+      <Image source={diary} style={styles.img}></Image>
+      <Image source={mypage} style={styles.img}></Image>
     </View>
   );
 };
@@ -38,17 +26,8 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#eee',
   },
-  link: {
-    marginTop: 6,
-    fontSize: 10,
-    fontWeight: 'medium',
-    color: '#333',
-    fontFamily: 'Pretendard6'
-  },
-  button: {
-    alignItems: 'center',
-    marginTop: 20,
-  },
+  img: {
+  }
 });
 
 export default Footer;

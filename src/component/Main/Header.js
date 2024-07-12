@@ -57,7 +57,9 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    margin: 25,
+    backgroundColor: "#fff",
+    flex: 0.07,
+    padding: 25,
   },
   today: {
     fontSize: 32,

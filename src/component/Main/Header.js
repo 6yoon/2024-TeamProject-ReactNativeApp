@@ -44,7 +44,7 @@ function Header({ date }) {
       <Text style={styles.today}>{monthDay}</Text>
       <View>
           <View  style={styles.weather}>
-            <Text style={styles.weathertext}>{`${(temp - 273).toFixed(1)}º`}</Text>
+            <Text style={styles.weathertext}>{`${Math.floor(temp - 273)}º`}</Text>
             <Text style={styles.weathertext}>{weather}</Text>
           </View>
         <Text style={styles.city}>{city}</Text>

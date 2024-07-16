@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  SafeAreaProvider,
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import Calendar from "./component/Calendar/Calendar";
 import Diary from "./component/Diary/Diary";
 import Main from "./component/Main/Main";
@@ -81,6 +85,7 @@ const MainTabNavigator = () => {
 };
 
 export default App = () => {
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>

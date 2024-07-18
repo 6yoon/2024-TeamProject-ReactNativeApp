@@ -1,6 +1,7 @@
 import Notification from "./Notification";
-import { StyleSheet, View, Animated } from "react-native";
+import { StyleSheet, Animated, TouchableOpacity } from "react-native";
 import { useRef } from "react";
+import Icon from "react-native-vector-icons/Entypo";
 
 function NotificationList({ todolist, setTodolist }) {
   const scrolling = useRef(new Animated.Value(0)).current;
@@ -44,6 +45,14 @@ function NotificationList({ todolist, setTodolist }) {
           checkPress={() => checkPress(item.id)}
         ></Notification>
       ))}
+      <TouchableOpacity style={styles.plus}>
+        <Icon
+          style={styles.plusIcon}
+          name="plus"
+          size={20}
+          color="#6E3BFF"
+        ></Icon>
+      </TouchableOpacity>
     </Animated.ScrollView>
   );
 }
@@ -51,7 +60,19 @@ function NotificationList({ todolist, setTodolist }) {
 const styles = StyleSheet.create({
   list: {
     marginTop: 4,
-  }
+  },
+  plus: {
+    /* borderColor: "red",
+    borderWidth: 1,
+    borderStyle: "solid", */
+    alignItems: "center",
+    paddingTop: 3,
+    paddingBottom: 3,
+    backgroundColor: "#fff",
+    marginTop: 10,
+    borderRadius: 32,
+  },
+  plusIcon: {},
 });
 
 export default NotificationList;

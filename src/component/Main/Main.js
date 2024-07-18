@@ -48,7 +48,7 @@ function Main({route}) {
             <Text style={styles.menuText}>Notification</Text>
           </View>
           <View style={styles.listcontent}>
-            <Timeline></Timeline>
+            <Timeline todolist={todolist}></Timeline>
             <View style={styles.todolist}>
               <NotificationList todolist={todolist} setTodolist={setTodolist}></NotificationList>
             </View>
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid", */
     position: "relative",
     left: 8,
-  }
+  },
 });
 
 export default Main;

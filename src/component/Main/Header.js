@@ -2,6 +2,24 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import * as Location from "expo-location";
 
+const koWeather = {
+  Thunderstorm: "뇌우",
+  Drizzle: "이슬비",
+  Rain: "비",
+  Snow: "눈",
+  Mist: "안개",
+  Smoke: "연기",
+  Haze: "안개",
+  Dust: "먼지",
+  Fog: "안개",
+  Sand: "황사",
+  Ash: "재",
+  Squall: "돌풍",
+  Tornado: "태풍",
+  Clear: "맑음",
+  Clouds: "흐림",
+}
+
 function Header({ date }) {
   const month = date.getMonth() + 1;
   const day = date.getDate();
@@ -45,7 +63,7 @@ function Header({ date }) {
       <View>
           <View  style={styles.weather}>
             <Text style={styles.weathertext}>{`${Math.floor(temp - 273)}º`}</Text>
-            <Text style={styles.weathertext}>{weather}</Text>
+            <Text style={styles.weathertext}>{koWeather[weather]}</Text>
           </View>
         <Text style={styles.city}>{city}</Text>
       </View>

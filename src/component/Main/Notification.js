@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1,
     marginTop: 10,
+    
   },
   touchedNotification: {
     flexDirection: "row",

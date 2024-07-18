@@ -1,50 +1,85 @@
-import { useRef } from "react";
-import { Animated } from "react-native";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useRef } from "react";
+import { Animated, FlatList, StyleSheet, Text, View } from "react-native";
 
-function Time() {
-  const time = [];
-  for (let i = 0; i < 24; i++) {
+const generateTimeData = () => {
+  const timeData = [];
+  for (let i = 0; i < 25; i++) {
     const timeText = i < 10 ? `0${i}:00` : `${i}:00`;
-    if (i < 23) {
-      time.push(
-        <>
-          <Text style={styles.timeText}>{timeText}</Text>
-          <View style={styles.lineBox}>
-            <View style={styles.line}></View>
-            <View style={styles.dot}></View>
-            <View style={styles.line}></View>
-          </View>
-        </>
-      );
-    } else {
-      time.push(
-        <>
-          <Text style={styles.timeText}>{timeText}</Text>
-        </>
-      );
-    }
+    timeData.push({
+      key: `${i}`,
+      timeText,
+      isLast: i === 24,
+    });
   }
-  return time;
-}
+  return timeData;
+};
 
-function Timeline() {
+const checkTouched = (todolist) => {
+  let flag = false;
+  let time = ["", ""];
+  todolist.map((item) => {
+    if (item.isTouched === true) {
+      flag = true;
+      if (item.time[0] < 10) time[0] = `0${item.time[0]}:00`;
+      else time[0] = `${item.time[0]}:00`;
+      if (item.time[1] < 11) time[1] = `0${item.time[1]}:00`;
+      else time[1] = `${item.time[1]}:00`;
+    }
+  });
+  return { flag, time };
+};
+
+const timeData = generateTimeData();
+
+const TimeItem = ({ timeText, isLast, todolist }) => {
+  const isHighlighted =
+    (timeText === checkTouched(todolist).time[0] &&
+      checkTouched(todolist).flag) ||
+    (timeText === checkTouched(todolist).time[1] &&
+      checkTouched(todolist).flag);
+  return (
+    <View>
+      <Text
+        style={[styles.timeText, isHighlighted && styles.highlightedTimeText]}
+      >
+        {timeText}
+      </Text>
+      {!isLast && (
+        <View style={styles.lineBox}>
+          <View style={styles.line}></View>
+          <View style={styles.dot}></View>
+          <View style={styles.line}></View>
+        </View>
+      )}
+    </View>
+  );
+};
+
+function Timeline({ todolist }) {
   const scrolling = useRef(new Animated.Value(0)).current;
-  const onScroll = (e) => {
-    const position = e.nativeEvent.contentOffset.y;
 
-    scrolling.setValue(position);
-  };
+  const onScroll = Animated.event(
+    [{ nativeEvent: { contentOffset: { y: scrolling } } }],
+    { useNativeDriver: false }
+  );
 
   return (
-    <Animated.ScrollView
+    <Animated.FlatList
+      data={timeData}
+      renderItem={({ item }) => (
+        <TimeItem
+          todolist={todolist}
+          timeText={item.timeText}
+          isLast={item.isLast}
+        />
+      )}
+      keyExtractor={(item) => item.key}
       scrollEventThrottle={10}
       onScroll={onScroll}
       style={styles.timeline}
       showsVerticalScrollIndicator={false}
-    >
-      <Time></Time>
-    </Animated.ScrollView>
+      contentOffset={{ y: 0 }}
+    />
   );
 }
 
@@ -59,6 +94,12 @@ const styles = StyleSheet.create({
   timeText: {
     marginBottom: 6,
     color: "#aaa",
+    fontWeight: "bold",
+    fontSize: 12,
+  },
+  highlightedTimeText: {
+    marginBottom: 6,
+    color: "#6E3BFF",
     fontWeight: "bold",
     fontSize: 12,
   },

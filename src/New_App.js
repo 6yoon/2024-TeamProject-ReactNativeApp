@@ -13,6 +13,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Feather";
 
+
 const Tab = createBottomTabNavigator();
 
 const MainTabNavigator = () => {
@@ -87,6 +88,7 @@ const MainTabNavigator = () => {
 export default App = () => {
 
   return (
+    
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <NavigationContainer>

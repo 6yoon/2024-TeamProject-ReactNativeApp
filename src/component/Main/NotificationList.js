@@ -1,19 +1,24 @@
 import Notification from "./Notification";
-import { StyleSheet, Animated, TouchableOpacity } from "react-native";
-import { useRef } from "react";
+import {
+  StyleSheet,
+  Animated,
+  TouchableOpacity,
+  FlatList,
+  Text,
+} from "react-native";
+import { useRef, useState } from "react";
 import Icon from "react-native-vector-icons/Entypo";
 
-function NotificationList({ todolist, setTodolist }) {
+function NotificationList({ todolist, setTodolist, setY }) {
   const scrolling = useRef(new Animated.Value(0)).current;
-  const onScroll = (e) => {
-    const position = e.nativeEvent.contentOffset.y;
-
-    scrolling.setValue(position);
-  };
+  const onScroll = Animated.event(
+    [{ nativeEvent: { contentOffset: { y: scrolling } } }],
+    { useNativeDriver: false }
+  );
 
   function handlePress(id) {
     let index = todolist.findIndex((item) => item.id === id);
-    if (index === -1) return; // id가 리스트에 없으면 아무 작업도 하지 않음
+    if (index === -1) return;
     let copylist = todolist.map((item, idx) => {
       if (item.isTouched && idx !== index) return { ...item, isTouched: false };
       if (idx === index) return { ...item, isTouched: !item.isTouched };
@@ -30,30 +35,30 @@ function NotificationList({ todolist, setTodolist }) {
     setTodolist(copylist);
   }
 
+  const renderItem = ({ item }) => (
+    <Notification
+      key={item.id}
+      {...item}
+      handlePress={() => handlePress(item.id)}
+      checkPress={() => checkPress(item.id)}
+    />
+  );
+
   return (
-    <Animated.ScrollView
-      scrollEventThrottle={10}
+    <FlatList
+      data={todolist}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
       onScroll={onScroll}
+      scrollEventThrottle={10}
       showsVerticalScrollIndicator={false}
-      style={styles.list}
-    >
-      {todolist.map((item) => (
-        <Notification
-          key={item.id}
-          {...item}
-          handlePress={() => handlePress(item.id)}
-          checkPress={() => checkPress(item.id)}
-        ></Notification>
-      ))}
-      <TouchableOpacity style={styles.plus}>
-        <Icon
-          style={styles.plusIcon}
-          name="plus"
-          size={20}
-          color="#6E3BFF"
-        ></Icon>
-      </TouchableOpacity>
-    </Animated.ScrollView>
+      contentContainerStyle={styles.list}
+      ListFooterComponent={
+        <TouchableOpacity style={styles.plus}>
+          <Icon style={styles.plusIcon} name="plus" size={20} color="#6E3BFF" />
+        </TouchableOpacity>
+      }
+    />
   );
 }
 
@@ -62,9 +67,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   plus: {
-    /* borderColor: "red",
-    borderWidth: 1,
-    borderStyle: "solid", */
     alignItems: "center",
     paddingTop: 3,
     paddingBottom: 3,

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Animated, FlatList, StyleSheet, Text, View } from "react-native";
 
 const generateTimeData = () => {
@@ -14,54 +14,93 @@ const generateTimeData = () => {
   return timeData;
 };
 
-const checkTouched = (todolist) => {
-  let flag = false;
-  let time = ["", ""];
-  todolist.map((item) => {
-    if (item.isTouched === true) {
-      flag = true;
-      if (item.time[0] < 10) time[0] = `0${item.time[0]}:00`;
-      else time[0] = `${item.time[0]}:00`;
-      if (item.time[1] < 11) time[1] = `0${item.time[1]}:00`;
-      else time[1] = `${item.time[1]}:00`;
-    }
-  });
-  return { flag, time };
-};
-
 const timeData = generateTimeData();
 
-const TimeItem = ({ timeText, isLast, todolist }) => {
-  const isHighlighted =
-    (timeText === checkTouched(todolist).time[0] &&
-      checkTouched(todolist).flag) ||
-    (timeText === checkTouched(todolist).time[1] &&
-      checkTouched(todolist).flag);
+const checkTouched = (todolist) => {
+  let flag = false;
+  let time = [];
+  let highlighted = [];
+  if (Array.isArray(todolist)) {
+    todolist.map((item) => {
+      if (item?.isTouched === true) {
+        flag = true;
+        const [start, end] = item.time;
+        for (let i = 0; i <= end; i++) {
+          time.push(start + i);
+        }
+        time.map((hours) => {
+          highlighted.push(hours < 10 ? `0${hours}:00` : `${hours}:00`);
+        });
+      }
+    });
+  }
+  return { flag, highlighted, time };
+};
+
+const TimeItem = ({ timeText, isLast, todolist}) => {
+  const { flag, highlighted } = checkTouched(todolist);
+  const linedot = highlighted.slice(0, -1);
   return (
     <View>
       <Text
-        style={[styles.timeText, isHighlighted && styles.highlightedTimeText]}
+        style={[
+          styles.timeText,
+          highlighted.includes(timeText) && flag && styles.highlightedTimeText,
+        ]}
       >
         {timeText}
       </Text>
       {!isLast && (
         <View style={styles.lineBox}>
-          <View style={styles.line}></View>
-          <View style={styles.dot}></View>
-          <View style={styles.line}></View>
+          <View
+            style={[
+              styles.line,
+              linedot.includes(timeText) && flag && styles.highlightedLine,
+            ]}
+          ></View>
+          <View
+            style={[
+              styles.dot,
+              linedot.includes(timeText) && flag && styles.highlightedDot,
+            ]}
+          ></View>
+          <View
+            style={[
+              styles.line,
+              linedot.includes(timeText) && flag && styles.highlightedLine,
+            ]}
+          ></View>
         </View>
       )}
     </View>
   );
 };
 
-function Timeline({ todolist }) {
+function focusTime(todolist){
+  let focus;
+  todolist.map((item)=>{
+    if(item.isTouched === true)
+      focus = item.time[0] * 56.4;
+  })
+  return focus;
+}
+
+function Timeline({ todolist}) {
   const scrolling = useRef(new Animated.Value(0)).current;
 
   const onScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { y: scrolling } } }],
     { useNativeDriver: false }
   );
+  const flatListRef = useRef(null);
+
+  useEffect(() => {
+      flatListRef.current?.scrollToOffset({
+        animated: true,
+        offset: focusTime(todolist),
+      });
+  }, [todolist]);
+
 
   return (
     <Animated.FlatList
@@ -78,7 +117,7 @@ function Timeline({ todolist }) {
       onScroll={onScroll}
       style={styles.timeline}
       showsVerticalScrollIndicator={false}
-      contentOffset={{ y: 0 }}
+      ref={flatListRef}
     />
   );
 }
@@ -114,10 +153,21 @@ const styles = StyleSheet.create({
     height: 14,
     backgroundColor: "#aaa",
   },
+  highlightedLine: {
+    width: 1,
+    height: 14,
+    backgroundColor: "#6E3BFF",
+  },
   dot: {
     width: 4,
     height: 4,
     backgroundColor: "#aaa",
+    borderRadius: 50,
+  },
+  highlightedDot: {
+    width: 4,
+    height: 4,
+    backgroundColor: "#6E3BFF",
     borderRadius: 50,
   },
 });

@@ -64,7 +64,6 @@ function NotificationList({ todolist, setTodolist, setY }) {
 
 const styles = StyleSheet.create({
   list: {
-    marginTop: 4,
   },
   plus: {
     alignItems: "center",

@@ -100,12 +100,12 @@ const styles = StyleSheet.create({
     paddingRight: 12,
   },
   notiText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "bold",
     marginBottom: 2,
   },
   checkedNotiText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "bold",
     color: "#aaa",
     marginBottom: 2,
@@ -113,13 +113,13 @@ const styles = StyleSheet.create({
     textDecorationStyle: "solid",
   },
   timeText: {
-    fontSize: 12,
+    fontSize: 10,
   },
   checkedtimeText: {
     textDecorationLine: "line-through",
     textDecorationStyle: "solid",
     color: "#aaa",
-    fontSize: 12,
+    fontSize: 10,
   },
 });
 

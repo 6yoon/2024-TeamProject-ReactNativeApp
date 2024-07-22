@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: "bold",
     marginRight: 50,
-    marginLeft: 10,
+    marginLeft: 5,
   },
   listcontent: {
     flexDirection: "row",

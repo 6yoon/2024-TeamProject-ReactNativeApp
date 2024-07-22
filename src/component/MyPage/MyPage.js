@@ -1,11 +1,14 @@
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Image, Text, TouchableOpacity  } from "react-native";
 import profile from "../../../public/images/profile.jpg";
+import editIcon from "../../../public/images/pencil.png";
 
 
-function MyPage() {
+function MyPage({ navigation }) {
   const name = "oloqlon";
   const Date = "2024.04.03";
   const Sex = "여성";
+  const Bitrh = "2004. 03. 15";
+  const Tel = "010-2222-2222";
   return (
     <View style={styles.mypage}>
       <View style = {styles.titlebox}>
@@ -16,12 +19,43 @@ function MyPage() {
         <Image source={profile} style={styles.profile}></Image>
         <View style = {styles.textbox}>
         <Text style = {styles.username}>{name}</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Edit')}>
+                <Image source={editIcon} style={styles.editIcon} />
+              </TouchableOpacity>
         <Text style = {styles.joinDate}>{Date} 가입함</Text>
         <Text style = {styles.sex}>{Sex}</Text>
         </View>
       </View>
+          <View
+            style={{
+              borderBottomColor: '#D9D9D9',
+              borderBottomWidth: StyleSheet.hairlineWidth,
+              marginTop:-10,
+            }}/>
+        <View style = {styles.birthbox}>
+          <Text style = {{
+              fontSize:12,
+              color:"#686868",
+          }}>생년월일</Text>
+          <Text style = {styles.birthDate}>{Bitrh}</Text>
+        </View>
+        <View style = {styles.telbox}>
+          <Text 
+            style = {{
+              fontSize:12,
+              color:"#686868",}}>전화번호</Text>
+          <Text style = {styles.telNum}>{Tel}</Text>
+        </View>
+        <View
+            style={{
+              borderBottomColor: '#D9D9D9',
+              borderBottomWidth: StyleSheet.hairlineWidth,
+              marginTop:25,
+            }}/>
       </View>
+      <Text style = {styles.Logout}>로그아웃</Text>
     </View>
+    
   );
 }
 
@@ -67,17 +101,56 @@ const styles = StyleSheet.create({
     marginTop:9,
   },
 
+  editIcon: {
+    marginLeft: 90,
+    marginTop:-17,
+  },
+
   joinDate: {
+    fontSize:12,
     marginLeft:28,
     marginTop:4,
     color:"#686868",
   },
 
   sex: {
-  marginLeft:28,
-   marginTop:10,
-   color:"#686868",
+    fontSize:12,
+    marginLeft:28,
+    marginTop:10,
+    color:"#686868",
  },
+
+  birthbox: {
+    flexDirection:'row',
+    marginTop: 30,
+    fontSize:12,
+    
+ },
+
+ birthDate: {
+  marginLeft: 249,
+  fontSize:12,
+ },
+
+telbox: {
+  flexDirection:'row',
+  marginTop: 20,
+},
+
+telNum: {
+  marginLeft: 228,
+  fontSize:12,
+},
+
+Logout: {
+  marginTop:30,
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  marginLeft: 170,
+  fontSize:12,
+}
+
 
 });
 

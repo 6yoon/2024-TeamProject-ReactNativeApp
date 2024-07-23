@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
-function CustomCheckbox({checkPress, isChecked}) {
+
+function CustomCheckbox({ checkPress, isChecked }) {
   return (
-    <TouchableOpacity
-      style={styles.checkbox}
-      onPress={checkPress}
-    >
+    <TouchableOpacity style={styles.checkbox} onPress={checkPress}>
       {isChecked && (
         <View style={styles.check}>
           <Icon name="check" color="#fff" size={14}></Icon>
@@ -32,20 +30,46 @@ function timeset(time) {
   return `${start} - ${end}`;
 }
 
-function Notification({ content, time, isTouched, isChecked, handlePress, checkPress }) {
+function Notification({
+  id,
+  content,
+  time,
+  isTouched,
+  isChecked,
+  handlePress,
+  checkPress,
+  openRowKey,
+}) {
+  const isOpen = openRowKey == id;
+
   return (
     <TouchableOpacity
-      style={isTouched ? styles.touchedNotification : styles.notification}
+    style={
+      isTouched && isOpen
+      ? styles.openTouchedNotification
+      : isTouched
+      ? styles.touchedNotification
+      : isOpen
+      ? styles.openNotification
+      : styles.notification
+      }
+      
       onPress={handlePress}
+      activeOpacity={1}
     >
       <View style={styles.custom}>
-        <CustomCheckbox isChecked={isChecked} checkPress={checkPress}></CustomCheckbox>
+        <CustomCheckbox
+          isChecked={isChecked}
+          checkPress={checkPress}
+        ></CustomCheckbox>
       </View>
       <View>
         <Text style={isChecked ? styles.checkedNotiText : styles.notiText}>
           {content}
         </Text>
-        <Text style={isChecked ? styles.checkedtimeText : styles.timeText}>{timeset(time)}</Text>
+        <Text style={isChecked ? styles.checkedtimeText : styles.timeText}>
+          {timeset(time)}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -62,7 +86,6 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1,
     marginTop: 10,
-    
   },
   touchedNotification: {
     flexDirection: "row",
@@ -70,6 +93,26 @@ const styles = StyleSheet.create({
     padding: 6,
     width: 256,
     borderRadius: 32,
+    borderColor: "#6E3BFF",
+    borderStyle: "solid",
+    borderWidth: 1,
+    marginTop: 10,
+  },
+  openNotification: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    padding: 6,
+    width: 245,
+    borderColor: "#fff",
+    borderStyle: "solid",
+    borderWidth: 1,
+    marginTop: 10,
+  },
+  openTouchedNotification: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    padding: 6,
+    width: 245,
     borderColor: "#6E3BFF",
     borderStyle: "solid",
     borderWidth: 1,

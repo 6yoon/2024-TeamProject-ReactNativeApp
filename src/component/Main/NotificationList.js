@@ -3,13 +3,13 @@ import {
   StyleSheet,
   Animated,
   TouchableOpacity,
-  FlatList,
-  Text,
+  View,
 } from "react-native";
 import { useRef, useState } from "react";
 import Icon from "react-native-vector-icons/Entypo";
+import { SwipeListView } from "react-native-swipe-list-view";
 
-function NotificationList({ todolist, setTodolist, setY }) {
+function NotificationList({ todolist, setTodolist }) {
   const scrolling = useRef(new Animated.Value(0)).current;
   const onScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { y: scrolling } } }],
@@ -41,11 +41,23 @@ function NotificationList({ todolist, setTodolist, setY }) {
       {...item}
       handlePress={() => handlePress(item.id)}
       checkPress={() => checkPress(item.id)}
+      openRowKey={openRowKey}
     />
   );
 
+  const [openRowKey, setOpenRowKey] = useState(null);
+
+  const onRowOpen = (rowKey) => {
+    setOpenRowKey(rowKey);
+
+  };
+
+  const onRowClose = () => {
+    setOpenRowKey(null);
+  };
+
   return (
-    <FlatList
+    <SwipeListView
       data={todolist}
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
@@ -58,13 +70,25 @@ function NotificationList({ todolist, setTodolist, setY }) {
           <Icon style={styles.plusIcon} name="plus" size={20} color="#6E3BFF" />
         </TouchableOpacity>
       }
+      renderHiddenItem={(data, rowMap) => (
+        <View style={styles.deleteBtn}>
+          <TouchableOpacity>
+            <View style={styles.deleteItem}>
+              <Icon name="trash" size={18} color="#fff" style={styles.deleteIcon}></Icon>
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
+      rightOpenValue={-40}
+      disableRightSwipe={true}
+      onRowOpen={onRowOpen}
+      onRowClose={onRowClose}
     />
   );
 }
 
 const styles = StyleSheet.create({
-  list: {
-  },
+  list: {},
   plus: {
     alignItems: "center",
     paddingTop: 3,
@@ -73,7 +97,28 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 32,
   },
-  plusIcon: {},
+  deleteBtn: {
+    flex: 1,
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    backgroundColor: "#fff",
+    flexDirection: "row",
+    marginTop: 9.8,
+    borderRadius: 32,
+  },
+  deleteItem: {
+    width: 255,
+    height: 42.01,
+    borderRadius: 32,
+    backgroundColor: "#6E3BFF",
+    marginRight: 0.2,
+    alignItems: "flex-end",
+    justifyContent: "center",
+  },
+  deleteIcon:{
+    marginRight: 17.5,
+  },
 });
 
 export default NotificationList;

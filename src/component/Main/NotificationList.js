@@ -1,10 +1,5 @@
 import Notification from "./Notification";
-import {
-  StyleSheet,
-  Animated,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Animated, TouchableOpacity, View } from "react-native";
 import { useRef, useState } from "react";
 import Icon from "react-native-vector-icons/Entypo";
 import { SwipeListView } from "react-native-swipe-list-view";
@@ -49,11 +44,19 @@ function NotificationList({ todolist, setTodolist }) {
 
   const onRowOpen = (rowKey) => {
     setOpenRowKey(rowKey);
-
   };
 
   const onRowClose = () => {
     setOpenRowKey(null);
+  };
+
+  const deleteNotification = (id) => {
+      let index = todolist.findIndex((item) => item.id === id);
+      let copylist = [...todolist];
+      if (index !== -1) {
+        copylist.splice(index, 1);
+      }
+      setTodolist(copylist);
   };
 
   return (
@@ -72,9 +75,14 @@ function NotificationList({ todolist, setTodolist }) {
       }
       renderHiddenItem={(data, rowMap) => (
         <View style={styles.deleteBtn}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>deleteNotification(data.item.id)}>
             <View style={styles.deleteItem}>
-              <Icon name="trash" size={18} color="#fff" style={styles.deleteIcon}></Icon>
+              <Icon
+                name="trash"
+                size={18}
+                color="#fff"
+                style={styles.deleteIcon}
+              ></Icon>
             </View>
           </TouchableOpacity>
         </View>
@@ -96,6 +104,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     marginTop: 10,
     borderRadius: 32,
+    width: 256,
   },
   deleteBtn: {
     flex: 1,
@@ -116,7 +125,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     justifyContent: "center",
   },
-  deleteIcon:{
+  deleteIcon: {
     marginRight: 17.5,
   },
 });

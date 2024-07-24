@@ -2,10 +2,12 @@ import { View, StyleSheet, Image, Text } from "react-native";
 import Header from "./Header";
 import NotificationList from "./NotificationList";
 import Timeline from "./Timeline";
+import Add from "./Add";
 import profile from "../../../public/images/profile.jpg";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
-function Main({route}) {
+function Main() {
   const today = new Date();
   const name = "한강고양이";
   const [todolist, setTodolist] = useState([
@@ -46,6 +48,8 @@ function Main({route}) {
     },
   ]);
 
+  const [addVisible, setAddVisible] = useState(false);
+
   return (
     <View style={styles.main}>
       <Header date={today}></Header>
@@ -64,11 +68,16 @@ function Main({route}) {
           <View style={styles.listcontent}>
             <Timeline todolist={todolist}></Timeline>
             <View style={styles.todolist}>
-              <NotificationList todolist={todolist} setTodolist={setTodolist}></NotificationList>
+              <NotificationList
+                todolist={todolist}
+                setTodolist={setTodolist}
+                setAddVisible={setAddVisible}
+              ></NotificationList>
             </View>
           </View>
         </View>
       </View>
+      <Add addVisible={addVisible} setAddVisible={setAddVisible}/>
     </View>
   );
 }

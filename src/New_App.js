@@ -10,7 +10,10 @@ import Diary from "./component/Diary/Diary";
 import Main from "./component/Main/Main";
 import MyPage from "./component/MyPage/MyPage";
 import Edit from "./component/MyPage/Edit";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  getFocusedRouteNameFromRoute,
+  NavigationContainer,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Feather";
@@ -18,14 +21,14 @@ import Icon from "react-native-vector-icons/Feather";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const MainTabNavigator = () => {
+const MainTabNavigator = ({ route, navigation }) => {
   const insets = useSafeAreaInsets();
 
   function MyPageStack() {
     return (
       <Stack.Navigator
         screenOptions={{
-          headerShown: false
+          headerShown: false,
         }}
       >
         <Stack.Screen name="MyPage" component={MyPage} />
@@ -34,6 +37,7 @@ const MainTabNavigator = () => {
     );
   }
 
+  const [addMain, setAddMain] = useState('undefined');
   return (
     <Tab.Navigator
       screenOptions={{
@@ -53,6 +57,7 @@ const MainTabNavigator = () => {
             ) : (
               <Icon name="home" color="#aaa" size={32}></Icon>
             ),
+            tabBarStyle: {display: {addMain}}
         }}
         name="Main"
         component={Main}

@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import Icon from "react-native-vector-icons/Entypo";
 import { SwipeListView } from "react-native-swipe-list-view";
 
-function NotificationList({ todolist, setTodolist }) {
+function NotificationList({ todolist, setTodolist, setAddMain, setAddVisible }) {
   const scrolling = useRef(new Animated.Value(0)).current;
   const onScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { y: scrolling } } }],
@@ -59,6 +59,10 @@ function NotificationList({ todolist, setTodolist }) {
       setTodolist(copylist);
   };
 
+  const popAdd = () => {
+    setAddVisible(true);
+  }
+
   return (
     <SwipeListView
       data={todolist}
@@ -69,7 +73,7 @@ function NotificationList({ todolist, setTodolist }) {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.list}
       ListFooterComponent={
-        <TouchableOpacity style={styles.plus}>
+        <TouchableOpacity style={styles.plus} onPress={popAdd}>
           <Icon style={styles.plusIcon} name="plus" size={20} color="#6E3BFF" />
         </TouchableOpacity>
       }

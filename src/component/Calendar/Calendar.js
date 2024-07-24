@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Image, Text, TouchableOpacity, FlatList } from "react-native";
 
 function Calendar() {
   return (
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   calendar: {
     backgroundColor: "#fff",
     flex: 1,
-  }
+  },
 });
 
 export default Calendar;

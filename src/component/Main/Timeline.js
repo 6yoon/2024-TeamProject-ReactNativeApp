@@ -80,7 +80,7 @@ function focusTime(todolist){
   let focus;
   todolist.map((item)=>{
     if(item.isTouched === true)
-      focus = item.time[0] * 56.4;
+      focus = item.time[0] * 49.7;
   })
   return focus;
 }
@@ -93,7 +93,7 @@ function Timeline({ todolist}) {
     { useNativeDriver: false }
   );
   const flatListRef = useRef(null);
-
+  
   useEffect(() => {
       flatListRef.current?.scrollToOffset({
         animated: true,
@@ -134,28 +134,28 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     color: "#aaa",
     fontWeight: "bold",
-    fontSize: 12,
+    fontSize: 10,
   },
   highlightedTimeText: {
     marginBottom: 6,
     color: "#6E3BFF",
     fontWeight: "bold",
-    fontSize: 12,
+    fontSize: 10,
   },
   lineBox: {
-    width: 37,
-    height: 30,
+    width: 33,
+    height: 26,
     alignItems: "center",
     marginBottom: 6,
   },
   line: {
     width: 1,
-    height: 14,
+    height: 12,
     backgroundColor: "#aaa",
   },
   highlightedLine: {
     width: 1,
-    height: 14,
+    height: 12,
     backgroundColor: "#6E3BFF",
   },
   dot: {

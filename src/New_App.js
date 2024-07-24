@@ -15,7 +15,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Feather";
 
 
-const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MainTabNavigator = () => {
@@ -94,12 +93,6 @@ export default App = () => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <NavigationContainer>
-        <NavigationContainer>
-      <Stack.Navigator initialRouteName="MyPage">
-        <Stack.Screen name="MyPage" component={MyPage} />
-        <Stack.Screen name="Edit" component={Edit} />
-      </Stack.Navigator>
-    </NavigationContainer>
           <MainTabNavigator />
         </NavigationContainer>
       </SafeAreaView>

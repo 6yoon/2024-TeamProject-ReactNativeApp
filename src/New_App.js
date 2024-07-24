@@ -11,18 +11,33 @@ import Main from "./component/Main/Main";
 import MyPage from "./component/MyPage/MyPage";
 import Edit from "./component/MyPage/Edit";
 import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Feather";
 
-
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 const MainTabNavigator = () => {
   const insets = useSafeAreaInsets();
 
+  function MyPageStack() {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false
+        }}
+      >
+        <Stack.Screen name="MyPage" component={MyPage} />
+        <Stack.Screen name="Edit" component={Edit} />
+      </Stack.Navigator>
+    );
+  }
+
   return (
     <Tab.Navigator
       screenOptions={{
+        headerShown: false,
         tabBarStyle: {
           height: 45 + insets.bottom,
           paddingTop: 10,
@@ -32,7 +47,6 @@ const MainTabNavigator = () => {
     >
       <Tab.Screen
         options={{
-          headerShown: false,
           tabBarIcon: ({ focused }) =>
             focused ? (
               <Icon name="home" color="#6E3BFF" size={32}></Icon>
@@ -79,17 +93,15 @@ const MainTabNavigator = () => {
               <Icon name="user" color="#aaa" size={32}></Icon>
             ),
         }}
-        name="MyPage"
-        component={MyPage}
+        name="MyPageStack"
+        component={MyPageStack}
       />
     </Tab.Navigator>
   );
 };
 
 export default App = () => {
-
   return (
-    
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <NavigationContainer>

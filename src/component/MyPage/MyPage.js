@@ -9,6 +9,9 @@ function MyPage({ navigation }) {
   const Sex = "여성";
   const Bitrh = "2004. 03. 15";
   const Tel = "010-2222-2222";
+  const moveEdit = () => {
+    navigation.navigate('Edit');
+}
   return (
     <View style={styles.mypage}>
       <View style = {styles.titlebox}>
@@ -19,7 +22,7 @@ function MyPage({ navigation }) {
         <Image source={profile} style={styles.profile}></Image>
         <View style = {styles.textbox}>
         <Text style = {styles.username}>{name}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Edit')}>
+        <TouchableOpacity onPress={moveEdit}>
                 <Image source={editIcon} style={styles.editIcon} />
               </TouchableOpacity>
         <Text style = {styles.joinDate}>{Date} 가입함</Text>

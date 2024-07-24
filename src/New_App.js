@@ -7,6 +7,7 @@ import {
 } from "react-native-safe-area-context";
 import Calendar from "./component/Calendar/Calendar";
 import Diary from "./component/Diary/Diary";
+import AddDiary from "./component/Diary/AddDiary";
 import Main from "./component/Main/Main";
 import MyPage from "./component/MyPage/MyPage";
 import Edit from "./component/MyPage/Edit";
@@ -24,12 +25,16 @@ const MainTabNavigator = () => {
   function MyPageStack() {
     return (
       <Stack.Navigator
+        initialRouteName="Diaray"
         screenOptions={{
           headerShown: false
         }}
       >
         <Stack.Screen name="MyPage" component={MyPage} />
         <Stack.Screen name="Edit" component={Edit} />
+        <Stack.Screen name="Diary" component={Diary} />
+        <Stack.Screen name="AddDiary" component={AddDiary} />
+
       </Stack.Navigator>
     );
   }

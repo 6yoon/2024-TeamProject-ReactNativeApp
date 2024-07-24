@@ -3,8 +3,11 @@ import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import plusIcon from '../../../public/images/plus.png';
 
-function Diary() {
-  const navigation = useNavigation(); 
+function Diary({navigation}) {
+  const moveAddDiary = () => {
+    navigation.navigate('AddDiary');
+
+}
 
   return (
     <View style={styles.diary}>
@@ -14,7 +17,7 @@ function Diary() {
       <View style={styles.emptydiary}>
         <Text style={styles.emptydiaryText}>오늘의 이야기를 기록해보세요.</Text>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('AddDiary')}> 
+      <TouchableOpacity onPress= {moveAddDiary}> 
         <Image source={plusIcon} style={styles.plusIcon} />
       </TouchableOpacity>
     </View>

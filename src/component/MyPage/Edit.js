@@ -6,7 +6,6 @@ function Edit({ navigation }) {
   const [tel, setTel] = useState('');
 
   const handleSave = () => {
-    // Add your save logic here (e.g., send the updated information to your server)
     console.log('Name:', name);
     console.log('Phone Number:', tel);
     navigation.goBack();

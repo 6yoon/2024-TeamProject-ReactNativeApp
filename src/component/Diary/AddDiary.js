@@ -1,15 +1,33 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Image, Text, TouchableOpacity, TextInput, Button, Alert } from "react-native";
+import { View, StyleSheet, Image, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 import cancelIcon from '../../../public/images/cancel1.png';
 
-function AddDiary({ navigation }) {
-  const [text, setText] = useState("");
+const saveDiaryEntry = (title, content) => {
+  console.log('Diary Entry Saved:', { title, content });
+};
 
-  const onChangeText = (inputText) => {
-    setText(inputText);
+function AddDiary({ navigation }) {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const onChangeTitleText = (inputTitle) => {
+    setTitle(inputTitle);
   };
 
-  const moveDiary = () => {
+  const onChangeContentText = (inputContent) => {
+    setContent(inputContent);
+  };
+
+  const handleSave = () => {
+    if (title.trim() === "" || content.trim() === "") {
+      Alert.alert('필수 입력', '제목과 내용을 입력해주세요.');
+      return;
+    }
+
+  
+    saveDiaryEntry(title, content);
+
+  
     navigation.navigate('Diary');
   };
 
@@ -18,31 +36,31 @@ function AddDiary({ navigation }) {
       <View style={styles.titlebox}>
         <Text style={styles.title}>일기장</Text>
       </View>
-      <TouchableOpacity onPress={moveDiary}> 
+      <TouchableOpacity onPress={() => navigation.navigate('Diary')}>
         <Image source={cancelIcon} style={styles.cancelIcon} />
       </TouchableOpacity>
       <View style={styles.title_title}>
         <Text style={styles.title_Text}>제목</Text>
         <TextInput
-          onChangeText={onChangeText}
-          value={text}
+          onChangeText={onChangeTitleText}
+          value={title}
           placeholder='당신의 하루를 한 줄로 표현한다면 ?'
           style={styles.title_input}
         />
         <Text style={styles.content_Text}>내용</Text>
         <TextInput
-          onChangeText={onChangeText}
-          value={text}
+          onChangeText={onChangeContentText}
+          value={content}
           placeholder='당신의 오늘 하루를 기록하여주세요.'
           style={styles.content_input}
         />
       </View>
-      <View style = {styles.ButtonBox}>
-      <TouchableOpacity
-        style={styles.Button}
-        onPress={() => navigation.navigate('Diary')}>
-        <Text style={styles.buttonText}>기록하기</Text>
-      </TouchableOpacity>
+      <View style={styles.ButtonBox}>
+        <TouchableOpacity
+          style={styles.Button}
+          onPress={handleSave}>
+          <Text style={styles.buttonText}>기록하기</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -67,46 +85,41 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     marginTop: 10,
   },
-
-  title_title:{
-    marginLeft:16
+  title_title: {
+    marginLeft: 16
   },
-
   title_Text: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 16,
     marginTop: 39,
   },
   title_input: {
     marginTop: 10,
     marginRight: 16,
-
   },
   content_Text: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 16,
     marginTop: 39,
   },
   content_input: {
     marginTop: 10,
     marginRight: 16,
   },
-
-  Button:{
+  Button: {
     backgroundColor: "#6E3BFF",
-    width:83,
-    height:29.63,
+    width: 83,
+    height: 29.63,
     borderRadius: 30,
-    marginTop:400,
-    marginLeft:294,
-
+    marginTop: 400,
+    marginLeft: 294,
   },
   buttonText: {
     color: '#fff', 
     fontSize: 12,
     fontWeight: 'bold',
-    textAlign:"center",
-    marginTop:8
+    textAlign: "center",
+    marginTop: 8
   },
 });
 

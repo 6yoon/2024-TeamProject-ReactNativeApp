@@ -1,64 +1,53 @@
-import { View, StyleSheet, Image, Text, TouchableOpacity  } from "react-native";
+import React from 'react';
+import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import profile from "../../../public/images/profile.jpg";
 import editIcon from "../../../public/images/pencil.png";
 
+function MyPage({ route, navigation }) {
+  // route.params에서 전달된 데이터 받아오기
+  const {
+    updatedName = "oloqlon",
+    updatedDate = "2024.04.03",
+    updatedSex = "여성",
+    updatedBirth = "2004. 03. 15",
+    updatedTel = "010-2222-2222",
+  } = route.params || {};
 
-function MyPage({ navigation }) {
-  const name = "oloqlon";
-  const Date = "2024.04.03";
-  const Sex = "여성";
-  const Bitrh = "2004. 03. 15";
-  const Tel = "010-2222-2222";
   const moveEdit = () => {
     navigation.navigate('Edit');
-}
+  };
+
   return (
     <View style={styles.mypage}>
-      <View style = {styles.titlebox}>
-      <Text style={styles.title}>마이페이지</Text>
+      <View style={styles.titlebox}>
+        <Text style={styles.title}>마이페이지</Text>
       </View>
-      <View style = {styles.mypageItem}>
-      <View style = {styles.profilebox}>
-        <Image source={profile} style={styles.profile}></Image>
-        <View style = {styles.textbox}>
-        <Text style = {styles.username}>{name}</Text>
-        <TouchableOpacity onPress={moveEdit}>
-                <Image source={editIcon} style={styles.editIcon} />
-              </TouchableOpacity>
-        <Text style = {styles.joinDate}>{Date} 가입함</Text>
-        <Text style = {styles.sex}>{Sex}</Text>
+      <View style={styles.mypageItem}>
+        <View style={styles.profilebox}>
+          <Image source={profile} style={styles.profile} />
+          <View style={styles.textbox}>
+            <Text style={styles.username}>{updatedName}</Text>
+            <TouchableOpacity onPress={moveEdit}>
+              <Image source={editIcon} style={styles.editIcon} />
+            </TouchableOpacity>
+            <Text style={styles.joinDate}>{updatedDate} 가입함</Text>
+            <Text style={styles.sex}>{updatedSex}</Text>
+          </View>
         </View>
+        <View style={styles.separator} />
+        <View style={styles.birthbox}>
+        <View style={styles.separator} />
+          <Text style={styles.label}>생년월일</Text>
+          <Text style={styles.birthDate}>{updatedBirth}</Text>
+        </View>
+        <View style={styles.telbox}>
+          <Text style={styles.label}>전화번호</Text>
+          <Text style={styles.telNum}>{updatedTel}</Text>
+        </View>
+        <View style={styles.separator} />
       </View>
-          <View
-            style={{
-              borderBottomColor: '#D9D9D9',
-              borderBottomWidth: StyleSheet.hairlineWidth,
-              marginTop:-10,
-            }}/>
-        <View style = {styles.birthbox}>
-          <Text style = {{
-              fontSize:12,
-              color:"#686868",
-          }}>생년월일</Text>
-          <Text style = {styles.birthDate}>{Bitrh}</Text>
-        </View>
-        <View style = {styles.telbox}>
-          <Text 
-            style = {{
-              fontSize:12,
-              color:"#686868",}}>전화번호</Text>
-          <Text style = {styles.telNum}>{Tel}</Text>
-        </View>
-        <View
-            style={{
-              borderBottomColor: '#D9D9D9',
-              borderBottomWidth: StyleSheet.hairlineWidth,
-              marginTop:25,
-            }}/>
-      </View>
-      <Text style = {styles.Logout}>로그아웃</Text>
+      <Text style={styles.Logout}>로그아웃</Text>
     </View>
-    
   );
 }
 
@@ -137,12 +126,18 @@ const styles = StyleSheet.create({
 
 telbox: {
   flexDirection:'row',
-  marginTop: 20,
+  marginTop: 10,
 },
 
 telNum: {
   marginLeft: 228,
   fontSize:12,
+},
+
+separator: {
+  borderBottomColor: '#D9D9D9',
+  borderBottomWidth: StyleSheet.hairlineWidth,
+  marginTop: 25,
 },
 
 Logout: {
@@ -152,7 +147,11 @@ Logout: {
   alignItems: "center",
   marginLeft: 170,
   fontSize:12,
-}
+},
+label: {
+  fontSize: 12,
+  color: "#686868",
+},
 
 
 });

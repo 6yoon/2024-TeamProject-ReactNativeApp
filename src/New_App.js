@@ -28,16 +28,28 @@ const MainTabNavigator = ({ route, navigation }) => {
   function MyPageStack() {
     return (
       <Stack.Navigator
-        initialRouteName="Diaray"
+        initialRouteName="Mypage"
         screenOptions={{
           headerShown: false,
         }}
       >
         <Stack.Screen name="MyPage" component={MyPage} />
         <Stack.Screen name="Edit" component={Edit} />
-        <Stack.Screen name="Diary" component={Diary} />
-        <Stack.Screen name="AddDiary" component={AddDiary} />
+      </Stack.Navigator>
+    );
+  }
 
+  function DiarayStack() {
+    return (
+      <Stack.Navigator
+        initialRouteName="Diaray"
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+
+       <Stack.Screen name="Diary" component={Diary} />
+        <Stack.Screen name="AddDiary" component={AddDiary} />
       </Stack.Navigator>
     );
   }
@@ -91,7 +103,7 @@ const MainTabNavigator = ({ route, navigation }) => {
             ),
         }}
         name="Diary"
-        component={Diary}
+        component={DiarayStack}
       />
       <Tab.Screen
         options={{

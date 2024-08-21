@@ -13,8 +13,6 @@ function Edit({ route, navigation }) {
     // 수정된 데이터를 MyPage 화면으로 전달
     navigation.navigate('MyPage', {
       updatedName: name,
-      updatedDate: date,
-      updatedSex: sex,
       updatedBirth: birth,
       updatedTel: tel,
     });

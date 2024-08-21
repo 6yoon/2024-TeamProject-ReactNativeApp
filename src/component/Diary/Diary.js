@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import plusIcon from '../../../public/images/plus.png';
 
 function Diary({navigation}) {

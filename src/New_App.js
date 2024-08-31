@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import Calendar from "./component/Calendar/Calendar";
+import CalendarView from "./component/Calendar/CalendarView";
 import Diary from "./component/Diary/Diary";
 import AddDiary from "./component/Diary/AddDiary";
 import Main from "./component/Main/Main";
@@ -24,6 +24,7 @@ const Stack = createNativeStackNavigator();
 
 const MainTabNavigator = ({ route, navigation }) => {
   const insets = useSafeAreaInsets();
+  const [addVisible, setAddVisible] = useState(false);
 
   function MyPageStack() {
     return (
@@ -37,12 +38,10 @@ const MainTabNavigator = ({ route, navigation }) => {
         <Stack.Screen name="Edit" component={Edit} />
         <Stack.Screen name="Diary" component={Diary} />
         <Stack.Screen name="AddDiary" component={AddDiary} />
-
       </Stack.Navigator>
     );
   }
 
-  const [addMain, setAddMain] = useState('undefined');
   return (
     <Tab.Navigator
       screenOptions={{
@@ -62,11 +61,11 @@ const MainTabNavigator = ({ route, navigation }) => {
             ) : (
               <Icon name="home" color="#aaa" size={32}></Icon>
             ),
-            tabBarStyle: {display: {addMain}}
         }}
         name="Main"
-        component={Main}
-      />
+      >
+        {() => <Main addVisible={addVisible} setAddVisible={setAddVisible} />}
+      </Tab.Screen>
       <Tab.Screen
         options={{
           headerShown: false,
@@ -78,8 +77,9 @@ const MainTabNavigator = ({ route, navigation }) => {
             ),
         }}
         name="Calendar"
-        component={Calendar}
-      />
+      >
+      {() => <CalendarView addVisible={addVisible} setAddVisible={setAddVisible} />}
+    </Tab.Screen>
       <Tab.Screen
         options={{
           headerShown: false,

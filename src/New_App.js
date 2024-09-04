@@ -14,11 +14,38 @@ import Edit from "./component/MyPage/Edit";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Feather";
-import { createStackNavigator } from '@react-navigation/stack';
-
+import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+function DiaryStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Diaray"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Diary" component={Diary} />
+      <Stack.Screen name="AddDiary" component={AddDiary} />
+    </Stack.Navigator>
+  );
+}
+
+function MyPageStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Mypage"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="MyPage" component={MyPage} />
+      <Stack.Screen name="Edit" component={Edit} />
+    </Stack.Navigator>
+  );
+}
 
 const MainTabNavigator = () => {
   const insets = useSafeAreaInsets();
@@ -60,8 +87,10 @@ const MainTabNavigator = () => {
         }}
         name="Calendar"
       >
-      {() => <CalendarView addVisible={addVisible} setAddVisible={setAddVisible} />}
-    </Tab.Screen>
+        {() => (
+          <CalendarView addVisible={addVisible} setAddVisible={setAddVisible} />
+        )}
+      </Tab.Screen>
       <Tab.Screen
         options={{
           headerShown: false,
@@ -73,7 +102,7 @@ const MainTabNavigator = () => {
             ),
         }}
         name="Diary"
-        component={DiarayStack}
+        component={DiaryStack}
       />
       <Tab.Screen
         options={{
@@ -86,16 +115,14 @@ const MainTabNavigator = () => {
             ),
         }}
         name="MyPage"
-        component={MyPage}
+        component={MyPageStack}
       />
     </Tab.Navigator>
   );
 };
 
 export default App = () => {
-
   return (
-    
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <NavigationContainer>

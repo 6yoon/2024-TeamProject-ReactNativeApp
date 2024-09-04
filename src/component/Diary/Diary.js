@@ -5,7 +5,6 @@ import plusIcon from '../../../public/images/plus.png';
 function Diary({navigation}) {
   const moveAddDiary = () => {
     navigation.navigate('AddDiary');
-
 }
 
   return (

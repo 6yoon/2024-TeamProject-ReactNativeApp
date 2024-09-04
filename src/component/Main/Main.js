@@ -4,51 +4,48 @@ import NotificationList from "./NotificationList";
 import Timeline from "./Timeline";
 import Add from "./Add";
 import profile from "../../../public/images/profile.jpg";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
-function Main() {
+function Main({addVisible, setAddVisible}) {
   const today = new Date();
   const name = "한강고양이";
+  const idRef = useRef(4);
   const [todolist, setTodolist] = useState([
     {
       id: 0,
       isChecked: false,
       isTouched: false,
       content: "공복 유산소",
-      time: [7, 1],
+      startTime: [7, 22],
+      endTime: [8, 22],
+      tag: "",
+      alarm: "",
+      memo: "",
     },
     {
       id: 1,
       isChecked: false,
       isTouched: false,
       content: "영어 학원 가기",
-      time: [9, 1],
+      startTime: [9, 0],
+      endTime: [11, 0],
+      tag: "",
+      alarm: "",
+      memo: "",
     },
     {
       id: 2,
       isChecked: false,
       isTouched: false,
       content: "친구랑 마라탕",
-      time: [13, 1],
-    },
-    {
-      id: 3,
-      isChecked: false,
-      isTouched: false,
-      content: "수학 학원 가기",
-      time: [15, 3],
-    },
-    {
-      id: 4,
-      isChecked: false,
-      isTouched: false,
-      content: "가족 외식",
-      time: [19, 2],
+      startTime: [13, 44],
+      endTime: [17, 22],
+      tag: "",
+      alarm: "",
+      memo: "",
     },
   ]);
-
-  const [addVisible, setAddVisible] = useState(false);
 
   return (
     <View style={styles.main}>
@@ -77,7 +74,13 @@ function Main() {
           </View>
         </View>
       </View>
-      <Add addVisible={addVisible} setAddVisible={setAddVisible}/>
+      <Add
+        addVisible={addVisible}
+        setAddVisible={setAddVisible}
+        todolist={todolist}
+        setTodolist={setTodolist}
+        idRef={idRef}
+      />
     </View>
   );
 }

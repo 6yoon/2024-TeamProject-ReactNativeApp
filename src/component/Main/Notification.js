@@ -14,8 +14,9 @@ function CustomCheckbox({ checkPress, isChecked }) {
   );
 }
 
-function timeset(time) {
-  const [startHour, duration] = time;
+function timeset(startTime, endTime) {
+  const [startHour, startMin] = startTime;
+  const [endHour, endMin] = endTime;
 
   const formatTime = (hour) => {
     const period = hour < 12 || hour === 24 ? "오전" : "오후";
@@ -24,8 +25,8 @@ function timeset(time) {
     return `${period} ${formattedHour}시`;
   };
 
-  const start = formatTime(startHour);
-  const end = formatTime((startHour + duration) % 24);
+  const start = `${formatTime(startHour)} ${startMin}분`;
+  const end = `${formatTime(endHour)} ${endMin}분`;
 
   return `${start} - ${end}`;
 }
@@ -33,7 +34,8 @@ function timeset(time) {
 function Notification({
   id,
   content,
-  time,
+  startTime,
+  endTime,
   isTouched,
   isChecked,
   handlePress,
@@ -44,16 +46,15 @@ function Notification({
 
   return (
     <TouchableOpacity
-    style={
-      isTouched && isOpen
-      ? styles.openTouchedNotification
-      : isTouched
-      ? styles.touchedNotification
-      : isOpen
-      ? styles.openNotification
-      : styles.notification
-      }
-      
+      style={[
+        isTouched && isOpen
+          ? styles.openTouchedNotification
+          : isTouched
+          ? styles.touchedNotification
+          : isOpen
+          ? styles.openNotification
+          : styles.notification,
+      ]}
       onPress={handlePress}
       activeOpacity={1}
     >
@@ -68,7 +69,7 @@ function Notification({
           {content}
         </Text>
         <Text style={isChecked ? styles.checkedtimeText : styles.timeText}>
-          {timeset(time)}
+          {timeset(startTime, endTime)}
         </Text>
       </View>
     </TouchableOpacity>
@@ -79,44 +80,48 @@ const styles = StyleSheet.create({
   notification: {
     flexDirection: "row",
     backgroundColor: "#fff",
-    padding: 6,
+    padding: 7,
     width: 256,
     borderRadius: 32,
     borderColor: "#fff",
     borderStyle: "solid",
     borderWidth: 1,
-    marginTop: 10,
+    marginTop: 8.5,
   },
   touchedNotification: {
     flexDirection: "row",
     backgroundColor: "#fff",
-    padding: 6,
+    padding: 7,
     width: 256,
     borderRadius: 32,
     borderColor: "#6E3BFF",
     borderStyle: "solid",
     borderWidth: 1,
-    marginTop: 10,
+    marginTop: 8.5,
   },
   openNotification: {
     flexDirection: "row",
     backgroundColor: "#fff",
-    padding: 6,
+    padding: 7,
     width: 245,
     borderColor: "#fff",
     borderStyle: "solid",
     borderWidth: 1,
-    marginTop: 10,
+    marginTop: 8.5,
+    borderTopLeftRadius: 32,
+    borderBottomLeftRadius: 32,
   },
   openTouchedNotification: {
     flexDirection: "row",
     backgroundColor: "#fff",
-    padding: 6,
+    padding: 7,
     width: 245,
     borderColor: "#6E3BFF",
     borderStyle: "solid",
     borderWidth: 1,
-    marginTop: 10,
+    marginTop: 8.5,
+    borderTopLeftRadius: 32,
+    borderBottomLeftRadius: 32,
   },
   checkbox: {
     width: 22,

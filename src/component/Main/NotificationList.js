@@ -1,17 +1,25 @@
 import Notification from "./Notification";
-import { StyleSheet, Animated, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Animated, TouchableOpacity, View, } from "react-native";
 import { useRef, useState } from "react";
 import Icon from "react-native-vector-icons/Entypo";
 import { SwipeListView } from "react-native-swipe-list-view";
 
-function NotificationList({ todolist, setTodolist, setAddMain, setAddVisible }) {
+function NotificationList({
+  todolist,
+  setTodolist,
+  setAddMain,
+  setAddVisible,
+}) {
   const scrolling = useRef(new Animated.Value(0)).current;
   const onScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { y: scrolling } } }],
     { useNativeDriver: false }
   );
 
-  function handlePress(id) {
+  const animatedValues = useRef(todolist.map(() => new Animated.Value(1))).current;
+  const hiddenAnimatedValues = useRef(todolist.map(() => new Animated.Value(1))).current;
+
+  const handlePress = (id) => {
     let index = todolist.findIndex((item) => item.id === id);
     if (index === -1) return;
     let copylist = todolist.map((item, idx) => {
@@ -21,23 +29,27 @@ function NotificationList({ todolist, setTodolist, setAddMain, setAddVisible }) 
     });
 
     setTodolist(copylist);
-  }
+  };
 
-  function checkPress(id) {
+  const checkPress = (id) => {
     let index = todolist.findIndex((item) => item.id === id);
     let copylist = [...todolist];
     copylist[index].isChecked = !copylist[index].isChecked;
     setTodolist(copylist);
-  }
+  };
 
-  const renderItem = ({ item }) => (
-    <Notification
-      key={item.id}
-      {...item}
-      handlePress={() => handlePress(item.id)}
-      checkPress={() => checkPress(item.id)}
-      openRowKey={openRowKey}
-    />
+  const renderItem = ({ item, index }) => (
+    <Animated.View
+      style={[styles.item, { opacity: animatedValues[index] }]}
+    >
+      <Notification
+        key={item.id}
+        {...item}
+        handlePress={() => handlePress(item.id)}
+        checkPress={() => checkPress(item.id)}
+        openRowKey={openRowKey}
+      />
+    </Animated.View>
   );
 
   const [openRowKey, setOpenRowKey] = useState(null);
@@ -50,18 +62,35 @@ function NotificationList({ todolist, setTodolist, setAddMain, setAddVisible }) 
     setOpenRowKey(null);
   };
 
-  const deleteNotification = (id) => {
-      let index = todolist.findIndex((item) => item.id === id);
-      let copylist = [...todolist];
-      if (index !== -1) {
-        copylist.splice(index, 1);
-      }
-      setTodolist(copylist);
+  const deleteNotification = (rowMap, id) => {
+    let index = todolist.findIndex((todo) => todo.id === id);
+    if (index === -1) return;
+  
+    if (rowMap[id]) {
+      rowMap[id].closeRow();
+    }
+  
+    Animated.parallel([
+      Animated.timing(animatedValues[index], {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(hiddenAnimatedValues[index], {
+        toValue: 0,
+        duration: 100,
+        useNativeDriver: true,
+      })
+    ]).start(() => {
+      setTodolist(prevTodolist => prevTodolist.filter(todo => todo.id !== id));
+      animatedValues[index] = new Animated.Value(1);
+      hiddenAnimatedValues[index] = new Animated.Value(1);
+    });
   };
 
   const popAdd = () => {
     setAddVisible(true);
-  }
+  };
 
   return (
     <SwipeListView
@@ -78,18 +107,18 @@ function NotificationList({ todolist, setTodolist, setAddMain, setAddVisible }) 
         </TouchableOpacity>
       }
       renderHiddenItem={(data, rowMap) => (
-        <View style={styles.deleteBtn}>
-          <TouchableOpacity onPress={()=>deleteNotification(data.item.id)}>
+        <Animated.View style={[styles.deleteBtn, { opacity: hiddenAnimatedValues[data.index] }]}>
+          <TouchableOpacity onPress={() => deleteNotification(rowMap, data.item.id)}>
             <View style={styles.deleteItem}>
               <Icon
                 name="trash"
                 size={18}
                 color="#fff"
                 style={styles.deleteIcon}
-              ></Icon>
+              />
             </View>
           </TouchableOpacity>
-        </View>
+        </Animated.View>
       )}
       rightOpenValue={-40}
       disableRightSwipe={true}
@@ -121,13 +150,14 @@ const styles = StyleSheet.create({
     borderRadius: 32,
   },
   deleteItem: {
-    width: 255,
-    height: 42.01,
+    width: 254,
+    height: 42,
     borderRadius: 32,
     backgroundColor: "#6E3BFF",
-    marginRight: 0.2,
     alignItems: "flex-end",
     justifyContent: "center",
+    marginRight: 1,
+    marginBottom: 0.5,
   },
   deleteIcon: {
     marginRight: 17.5,

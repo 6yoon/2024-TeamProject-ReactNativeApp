@@ -5,60 +5,28 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import Calendar from "./component/Calendar/Calendar";
+import CalendarView from "./component/Calendar/CalendarView";
 import Diary from "./component/Diary/Diary";
 import AddDiary from "./component/Diary/AddDiary";
 import Main from "./component/Main/Main";
 import MyPage from "./component/MyPage/MyPage";
 import Edit from "./component/MyPage/Edit";
-import {
-  getFocusedRouteNameFromRoute,
-  NavigationContainer,
-} from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Feather";
+import { createStackNavigator } from '@react-navigation/stack';
 
+
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
-const MainTabNavigator = ({ route, navigation }) => {
+const MainTabNavigator = () => {
   const insets = useSafeAreaInsets();
+  const [addVisible, setAddVisible] = useState(false);
 
-  function MyPageStack() {
-    return (
-      <Stack.Navigator
-        initialRouteName="Mypage"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="MyPage" component={MyPage} />
-        <Stack.Screen name="Edit" component={Edit} />
-      </Stack.Navigator>
-    );
-  }
-
-  function DiarayStack() {
-    return (
-      <Stack.Navigator
-        initialRouteName="Diaray"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-
-       <Stack.Screen name="Diary" component={Diary} />
-        <Stack.Screen name="AddDiary" component={AddDiary} />
-      </Stack.Navigator>
-    );
-  }
-
-  const [addMain, setAddMain] = useState('undefined');
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false,
         tabBarStyle: {
           height: 45 + insets.bottom,
           paddingTop: 10,
@@ -68,17 +36,18 @@ const MainTabNavigator = ({ route, navigation }) => {
     >
       <Tab.Screen
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused }) =>
             focused ? (
               <Icon name="home" color="#6E3BFF" size={32}></Icon>
             ) : (
               <Icon name="home" color="#aaa" size={32}></Icon>
             ),
-            tabBarStyle: {display: {addMain}}
         }}
         name="Main"
-        component={Main}
-      />
+      >
+        {() => <Main addVisible={addVisible} setAddVisible={setAddVisible} />}
+      </Tab.Screen>
       <Tab.Screen
         options={{
           headerShown: false,
@@ -90,8 +59,9 @@ const MainTabNavigator = ({ route, navigation }) => {
             ),
         }}
         name="Calendar"
-        component={Calendar}
-      />
+      >
+      {() => <CalendarView addVisible={addVisible} setAddVisible={setAddVisible} />}
+    </Tab.Screen>
       <Tab.Screen
         options={{
           headerShown: false,
@@ -115,15 +85,17 @@ const MainTabNavigator = ({ route, navigation }) => {
               <Icon name="user" color="#aaa" size={32}></Icon>
             ),
         }}
-        name="MyPageStack"
-        component={MyPageStack}
+        name="MyPage"
+        component={MyPage}
       />
     </Tab.Navigator>
   );
 };
 
 export default App = () => {
+
   return (
+    
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <NavigationContainer>

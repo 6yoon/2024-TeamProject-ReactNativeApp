@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "#fff",
     flex: 0.07,
+    paddingTop: 12,
     padding: 25,
   },
   today: {

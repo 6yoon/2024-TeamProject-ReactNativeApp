@@ -24,9 +24,10 @@ const checkTouched = (todolist) => {
     todolist.map((item) => {
       if (item?.isTouched === true) {
         flag = true;
-        const [start, end] = item.time;
-        for (let i = 0; i <= end; i++) {
-          time.push(start + i);
+        const startHour = item.startTime[0];
+        const endHour = item.endTime[0] - item.startTime[0] + 1
+        for (let i = 0; i <= endHour; i++) {
+          time.push(startHour + i);
         }
         time.map((hours) => {
           highlighted.push(hours < 10 ? `0${hours}:00` : `${hours}:00`);
@@ -80,7 +81,7 @@ function focusTime(todolist){
   let focus;
   todolist.map((item)=>{
     if(item.isTouched === true)
-      focus = item.time[0] * 49.7;
+      focus = item.startTime[0] * 49.7;
   })
   return focus;
 }

@@ -128,8 +128,9 @@ const styles = StyleSheet.create({
     borderRightColor: "#ddd",
     borderRightWidth: 1,
     borderStyle: "solid",
-    height: 380,
+    height: 390,
     marginRight: 10,
+    width: 50,
   },
   timeText: {
     marginBottom: 6,

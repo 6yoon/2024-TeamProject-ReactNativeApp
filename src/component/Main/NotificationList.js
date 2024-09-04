@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     marginTop: 10,
     borderRadius: 32,
-    width: 256,
+    width: 272,
   },
   deleteBtn: {
     flex: 1,
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     borderRadius: 32,
   },
   deleteItem: {
-    width: 254,
+    width: 270,
     height: 42,
     borderRadius: 32,
     backgroundColor: "#6E3BFF",

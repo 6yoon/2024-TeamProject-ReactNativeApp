@@ -1,13 +1,12 @@
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Image, Text, ScrollView } from "react-native";
 import Header from "./Header";
 import NotificationList from "./NotificationList";
 import Timeline from "./Timeline";
 import Add from "./Add";
 import profile from "../../../public/images/profile.jpg";
 import { useRef, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 
-function Main({addVisible, setAddVisible}) {
+function Main({ addVisible, setAddVisible }) {
   const today = new Date();
   const name = "한강고양이";
   const idRef = useRef(4);
@@ -47,6 +46,20 @@ function Main({addVisible, setAddVisible}) {
     },
   ]);
 
+  const scrollViewRef = useRef(null);
+
+  function mainScroll(event) {
+    const offsetX = event.nativeEvent.contentOffset.x;
+    const contentWidth = event.nativeEvent.contentSize.width;
+
+    /* if (offsetX > 0 && offsetX < 400) {
+      scrollViewRef.current.scrollTo({ x: contentWidth, animated: true });
+    } else if (offsetX > 400 && offsetX < contentWidth) {
+      scrollViewRef.current.scrollTo({ x: 0, animated: true });
+    } */
+    
+  }
+
   return (
     <View style={styles.main}>
       <Header date={today}></Header>
@@ -57,22 +70,34 @@ function Main({addVisible, setAddVisible}) {
             오늘 {name}님의 일정은 {todolist.length}개입니다.
           </Text>
         </View>
-        <View style={styles.list}>
-          <View style={styles.menu}>
-            <Text style={styles.menuText}>Time</Text>
-            <Text style={styles.menuText}>Notification</Text>
-          </View>
-          <View style={styles.listcontent}>
-            <Timeline todolist={todolist}></Timeline>
-            <View style={styles.todolist}>
-              <NotificationList
-                todolist={todolist}
-                setTodolist={setTodolist}
-                setAddVisible={setAddVisible}
-              ></NotificationList>
+        <ScrollView
+          ref={scrollViewRef}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          onScroll={mainScroll}
+        >
+          <View style={styles.scrollBox}>
+            <View style={styles.list}>
+              <View style={styles.menu}>
+                <Text style={styles.menuText}>Time</Text>
+                <Text style={styles.menuText}>Notification</Text>
+              </View>
+              <View style={styles.listcontent}>
+                <Timeline todolist={todolist}></Timeline>
+                <View style={styles.todolist}>
+                  <NotificationList
+                    todolist={todolist}
+                    setTodolist={setTodolist}
+                    setAddVisible={setAddVisible}
+                  ></NotificationList>
+                </View>
+              </View>
+            </View>
+            <View style={styles.habit}>
+              <Text>안녕하세요하세요하세요하세요하세요하세요하세요</Text>
             </View>
           </View>
-        </View>
+        </ScrollView>
       </View>
       <Add
         addVisible={addVisible}
@@ -93,6 +118,7 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: "#6E3BFF0D",
     flex: 1,
+    flexDirection: "column",
   },
   profileBox: {
     backgroundColor: "#fff",
@@ -112,15 +138,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 8,
   },
+  scrollBox: {
+    flexDirection: "row",
+  },
   list: {
     paddingLeft: 30,
     paddingRight: 30,
     paddingTop: 25,
     flex: 1,
+    borderWidth: 1,
+    width: 400,
   },
   menu: {
     flexDirection: "row",
-    marginBottom: 20,
+    height: 15,
+    marginBottom: 10,
   },
   menuText: {
     fontSize: 10,
@@ -130,7 +162,6 @@ const styles = StyleSheet.create({
   },
   listcontent: {
     flexDirection: "row",
-    flex: 1,
   },
   todolist: {
     /* borderColor: "red",

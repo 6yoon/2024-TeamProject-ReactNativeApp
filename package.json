@@ -24,6 +24,7 @@
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
     "react-native": "0.74.3",
+    "react-native-bit-swiper": "^1.1.8",
     "react-native-calendars": "^1.1306.0",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-modal-datetime-picker": "^17.1.0",

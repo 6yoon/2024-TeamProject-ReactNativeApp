@@ -5863,7 +5863,7 @@ prompts@^2.3.2, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@>=15.5.0, prop-types@15.8.1:
+prop-types@^15.5.10, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@>=15.5.0, prop-types@15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -5974,6 +5974,13 @@ react-is@^18.0.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+
+react-native-bit-swiper@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.npmjs.org/react-native-bit-swiper/-/react-native-bit-swiper-1.1.8.tgz"
+  integrity sha512-UcG3NKlClg95qIL5xLe2fHkBaUWcqoGv62895vUosIejAK4vV9Ti8WcWFitTOw42/3CMpcjJhjW3gBC7csmE5w==
+  dependencies:
+    prop-types "^15.6.1"
 
 react-native-calendars@^1.1306.0:
   version "1.1306.0"

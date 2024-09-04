@@ -1,33 +1,82 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Image, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
-import profile from "../../../public/images/profile.jpg";
+import React, { useState, useEffect, useRef } from 'react';
+import { View, StyleSheet, Image, Text, TouchableOpacity, TextInput } from 'react-native';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 function Edit({ route, navigation }) {
-  const [name, setName] = useState("oloqlon");
-  const [date, setDate] = useState("2024.04.03");
-  const [sex, setSex] = useState("여성");
-  const [birth, setBirth] = useState("2004. 03. 15");
-  const [tel, setTel] = useState("010-2222-2222");
+  const {
+    updatedName,
+    updatedBirth,
+    updatedTel,
+    sex = "여성",
+    date = "2024.04.03",
+    updatedProfileImage,
+  } = route.params || {};
+
+  const [name, setName] = useState(updatedName || "oloqlon");
+  const [birth, setBirth] = useState(updatedBirth || "2004. 03. 15");
+  const [tel, setTel] = useState(updatedTel || "010-2222-2222");
+  const [profileImage, setProfileImage] = useState(updatedProfileImage || require("../../../public/images/profile.jpg"));
+
+  const nameInputRef = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (nameInputRef.current) {
+        nameInputRef.current.focus();
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSave = () => {
-    // 수정된 데이터를 MyPage 화면으로 전달
     navigation.navigate('MyPage', {
       updatedName: name,
       updatedBirth: birth,
       updatedTel: tel,
+      sex,
+      date,
+      updatedProfileImage: profileImage,
+    });
+  };
+
+  const handleBirthChange = (text) => {
+    const formatted = text
+      .replace(/[^0-9]/g, '')  
+      .replace(/(\d{4})(\d{2})(\d{2})/, '$1.$2.$3')  
+      .substring(0, 10); 
+    setBirth(formatted);
+  };
+
+  const handleTelChange = (text) => {
+    const formatted = text
+      .replace(/[^0-9]/g, '')  
+      .replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')  
+      .substring(0, 13); 
+    setTel(formatted);
+  };
+
+  const handleProfileImageChange = () => {
+    launchImageLibrary({}, response => {
+      if (response.assets && response.assets.length > 0) {
+        setProfileImage({ uri: response.assets[0].uri });
+      }
     });
   };
 
   return (
     <View style={styles.mypage}>
       <View style={styles.titlebox}>
-        <Text style={styles.title}>마이페이지</Text>
+        <Text style={styles.title}>마이페이지 수정</Text>
       </View>
       <View style={styles.mypageItem}>
         <View style={styles.profilebox}>
-          <Image source={profile} style={styles.profile} />
+          <TouchableOpacity onPress={handleProfileImageChange}>
+            <Image source={profileImage} style={styles.profile} />
+          </TouchableOpacity>
           <View style={styles.textbox}>
             <TextInput
+              ref={nameInputRef}
               value={name}
               onChangeText={setName}
               style={styles.username}
@@ -41,16 +90,20 @@ function Edit({ route, navigation }) {
           <Text style={styles.label}>생년월일</Text>
           <TextInput
             value={birth}
-            onChangeText={setBirth}
+            onChangeText={handleBirthChange}
             style={styles.birthDate}
+            keyboardType="numeric"
+            maxLength={10}
           />
         </View>
         <View style={styles.telbox}>
           <Text style={styles.label}>전화번호</Text>
           <TextInput
             value={tel}
-            onChangeText={setTel}
+            onChangeText={handleTelChange}
             style={styles.edit_telNum}
+            keyboardType="numeric"
+            maxLength={13}
           />
         </View>
         <View style={styles.separator} />
@@ -61,7 +114,6 @@ function Edit({ route, navigation }) {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   mypage: {

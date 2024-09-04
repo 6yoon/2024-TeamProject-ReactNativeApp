@@ -2,13 +2,23 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 import cancelIcon from '../../../public/images/cancel1.png';
 
-const saveDiaryEntry = (title, content) => {
-  console.log('Diary Entry Saved:', { title, content });
+const saveDiaryEntry = (date, title, content) => {
+  console.log('Diary Entry Saved:', { date, title, content });
 };
 
 function AddDiary({ navigation }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [date, setDate] = useState("");
+  
+  const onChangeDateText = (inputDate) => {
+    const formatted = inputDate
+    .replace(/[^0-9]/g, '')  // 숫자만 남김
+    .replace(/(\d{4})(\d{2})(\d{2})/, '$1.$2.$3')  // YYYYMMDD를 YYYY.MM.DD로 변환
+    .substring(0, 10);  // 최대 10글자까지 제한
+    setDate(formatted);
+  };
+ 
 
   const onChangeTitleText = (inputTitle) => {
     setTitle(inputTitle);
@@ -40,18 +50,24 @@ function AddDiary({ navigation }) {
         <Image source={cancelIcon} style={styles.cancelIcon} />
       </TouchableOpacity>
       <View style={styles.title_title}>
-        <Text style={styles.title_Text}>제목</Text>
+      <TextInput
+          onChangeText={onChangeDateText}
+          value={date}
+          placeholder='날짜 (YYYYMMDD)'
+          style={styles.date_input}
+          keyboardType="numeric"
+          maxLength={10}
+        />
         <TextInput
           onChangeText={onChangeTitleText}
           value={title}
-          placeholder='당신의 하루를 한 줄로 표현한다면 ?'
+          placeholder='제목'
           style={styles.title_input}
         />
-        <Text style={styles.content_Text}>내용</Text>
         <TextInput
           onChangeText={onChangeContentText}
           value={content}
-          placeholder='당신의 오늘 하루를 기록하여주세요.'
+          placeholder='내용'
           style={styles.content_input}
         />
       </View>
@@ -88,22 +104,20 @@ const styles = StyleSheet.create({
   title_title: {
     marginLeft: 16
   },
-  title_Text: {
-    fontWeight: "bold",
-    fontSize: 16,
-    marginTop: 39,
-  },
-  title_input: {
-    marginTop: 10,
+  date_input: {
+    marginTop: 41,
     marginRight: 16,
-  },
-  content_Text: {
+  }, 
+
+  title_input: {
+    marginTop: 30,
+    marginRight: 16,
     fontWeight: "bold",
     fontSize: 16,
-    marginTop: 39,
   },
+
   content_input: {
-    marginTop: 10,
+    marginTop: 30,
     marginRight: 16,
   },
   Button: {

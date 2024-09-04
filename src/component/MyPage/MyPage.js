@@ -7,15 +7,14 @@ function MyPage({ route, navigation }) {
   // route.params에서 전달된 데이터 받아오기
   const {
     updatedName = "oloqlon",
-    updatedDate = "2024.04.03",
-    updatedSex = "여성",
     updatedBirth = "2004. 03. 15",
     updatedTel = "010-2222-2222",
+    sex = "여성",
+    date = "2024.04.03",
+    updatedProfileImage,
   } = route.params || {};
 
-  const moveEdit = () => {
-    navigation.navigate('Edit');
-  };
+  
 
   return (
     <View style={styles.mypage}>
@@ -24,14 +23,26 @@ function MyPage({ route, navigation }) {
       </View>
       <View style={styles.mypageItem}>
         <View style={styles.profilebox}>
-          <Image source={profile} style={styles.profile} />
+        <Image
+        source={updatedProfileImage ? { uri: updatedProfileImage.uri } : require("../../../public/images/profile.jpg")}
+        style={{ width: 80, height: 80, borderRadius: 50 }}
+      />
           <View style={styles.textbox}>
             <Text style={styles.username}>{updatedName}</Text>
-            <TouchableOpacity onPress={moveEdit}>
+            <TouchableOpacity  onPress={() =>
+          navigation.navigate('Edit', {
+            updatedName,
+            updatedBirth,
+            updatedTel,
+            sex,
+            date,
+            updatedProfileImage,
+          })
+        }>
               <Image source={editIcon} style={styles.editIcon} />
             </TouchableOpacity>
-            <Text style={styles.joinDate}>{updatedDate} 가입함</Text>
-            <Text style={styles.sex}>{updatedSex}</Text>
+            <Text style={styles.joinDate}>{date} 가입함</Text>
+            <Text style={styles.sex}>{sex}</Text>
           </View>
         </View>
         <View style={styles.separator} />

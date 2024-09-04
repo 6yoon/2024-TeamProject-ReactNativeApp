@@ -13,6 +13,9 @@ function Diary({navigation}) {
       <View style={styles.titlebox}>
         <Text style={styles.title}>일기장</Text>
       </View>
+      <View style={styles.diarylist}>
+        <Text style={styles.list}></Text>
+      </View>
       <View style={styles.emptydiary}>
         <Text style={styles.emptydiaryText}>오늘의 이야기를 기록해보세요.</Text>
       </View>
@@ -42,12 +45,17 @@ const styles = StyleSheet.create({
   },
   emptydiaryText: {
     color: "#BBBBBB",
+    position: "absolute",
+
   },
+
+
   plusIcon: {
     width: 47,
     height: 47,
     marginTop: 252,
     marginLeft: 317,
+    position: "fixed",
   },
 });
 

@@ -23,6 +23,7 @@
     "react-native": "0.74.3",
     "react-native-bit-swiper": "^1.1.8",
     "react-native-calendars": "^1.1306.0",
+    "react-native-date-picker": "^5.0.7",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-image-picker": "^7.1.2",
     "react-native-modal-datetime-picker": "^17.1.0",

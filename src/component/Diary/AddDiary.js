@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Image, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, Image, Text, TouchableOpacity, TextInput, Alert, 
+  Keyboard, TouchableWithoutFeedback } from 'react-native';
 import cancelIcon from '../../../public/images/cancel1.png';
+import DatePicker from 'react-native-date-picker'
 
 const saveDiaryEntry = (date, title, content) => {
   console.log('Diary Entry Saved:', { date, title, content });
 };
 
 function AddDiary({ navigation }) {
+  const [date, setDate] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [date, setDate] = useState("");
-  
+
+
   const onChangeDateText = (inputDate) => {
     const formatted = inputDate
-    .replace(/[^0-9]/g, '')  // 숫자만 남김
-    .replace(/(\d{4})(\d{2})(\d{2})/, '$1.$2.$3')  // YYYYMMDD를 YYYY.MM.DD로 변환
-    .substring(0, 10);  // 최대 10글자까지 제한
+      .replace(/[^0-9]/g, '')  // 숫자만 남김
+      .replace(/(\d{4})(\d{2})(\d{2})/, '$1.$2.$3')  // YYYYMMDD를 YYYY.MM.DD로 변환
+      .substring(0, 10);  // 최대 10글자까지 제한
     setDate(formatted);
   };
- 
 
   const onChangeTitleText = (inputTitle) => {
     setTitle(inputTitle);
@@ -28,20 +30,30 @@ function AddDiary({ navigation }) {
     setContent(inputContent);
   };
 
+  // 날짜 형식 검증 함수 (YYYY.MM.DD 형식 확인)
+  const isValidDate = (date) => {
+    const dateRegex = /^\d{4}\.\d{2}\.\d{2}$/;
+    return dateRegex.test(date);
+  };
+
   const handleSave = () => {
-    if (title.trim() === "" || content.trim() === "") {
-      Alert.alert('필수 입력', '제목과 내용을 입력해주세요.');
+    if (date.trim() === "" || title.trim() === "" || content.trim() === "") {
+      Alert.alert('필수 입력', '날짜, 제목, 내용을 모두 입력해주세요.');
       return;
     }
 
-  
-    saveDiaryEntry(title, content);
+    // 날짜 형식이 맞지 않는 경우
+    if (!isValidDate(date)) {
+      Alert.alert('날짜 오류', '날짜를 YYYY.MM.DD 형식으로 입력해주세요.');
+      return;
+    }
 
-  
-    navigation.navigate('Diary');
+    saveDiaryEntry(date, title, content);
+    navigation.navigate('Diary', { date, title, content });
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.calendar}>
       <View style={styles.titlebox}>
         <Text style={styles.title}>일기장</Text>
@@ -50,7 +62,7 @@ function AddDiary({ navigation }) {
         <Image source={cancelIcon} style={styles.cancelIcon} />
       </TouchableOpacity>
       <View style={styles.title_title}>
-      <TextInput
+        <TextInput
           onChangeText={onChangeDateText}
           value={date}
           placeholder='날짜 (YYYYMMDD)'
@@ -69,16 +81,17 @@ function AddDiary({ navigation }) {
           value={content}
           placeholder='내용'
           style={styles.content_input}
+          multiline={true}
+          numberOfLines={4}
+          textAlignVertical="top"
         />
       </View>
-      <View style={styles.ButtonBox}>
-        <TouchableOpacity
-          style={styles.Button}
-          onPress={handleSave}>
-          <Text style={styles.buttonText}>기록하기</Text>
-        </TouchableOpacity>
-      </View>
+      
+      <TouchableOpacity style={styles.Button} onPress={handleSave}>
+        <Text style={styles.buttonText}>기록하기</Text>
+      </TouchableOpacity>
     </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -86,6 +99,7 @@ const styles = StyleSheet.create({
   calendar: {
     backgroundColor: "#fff",
     flex: 1,
+    paddingBottom: 70,
   },
   titlebox: {
     alignItems: "center",
@@ -102,38 +116,37 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   title_title: {
-    marginLeft: 16
+    marginLeft: 16,
   },
   date_input: {
     marginTop: 41,
     marginRight: 16,
-  }, 
-
+  },
   title_input: {
     marginTop: 30,
     marginRight: 16,
     fontWeight: "bold",
     fontSize: 16,
   },
-
   content_input: {
     marginTop: 30,
     marginRight: 16,
   },
   Button: {
     backgroundColor: "#6E3BFF",
-    width: 83,
-    height: 29.63,
+    width: 100,
+    height: 40,
     borderRadius: 30,
-    marginTop: 400,
-    marginLeft: 294,
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonText: {
-    color: '#fff', 
-    fontSize: 12,
+    color: '#fff',
+    fontSize: 14,
     fontWeight: 'bold',
-    textAlign: "center",
-    marginTop: 8
   },
 });
 

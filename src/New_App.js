@@ -8,6 +8,7 @@ import {
 import CalendarView from "./component/Calendar/CalendarView";
 import Diary from "./component/Diary/Diary";
 import AddDiary from "./component/Diary/AddDiary";
+import DiaryDetail from "./component/Diary/DiaryDetail";
 import Main from "./component/Main/Main";
 import MyPage from "./component/MyPage/MyPage";
 import Edit from "./component/MyPage/Edit";
@@ -27,8 +28,10 @@ function DiaryStack() {
         headerShown: false,
       }}
     >
+      
       <Stack.Screen name="Diary" component={Diary} />
       <Stack.Screen name="AddDiary" component={AddDiary} />
+      <Stack.Screen name="DiaryDetail" component={DiaryDetail} />
     </Stack.Navigator>
   );
 }

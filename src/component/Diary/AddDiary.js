@@ -49,7 +49,7 @@ function AddDiary({ navigation }) {
     }
 
     saveDiaryEntry(date, title, content);
-    navigation.navigate('Diary', { date, title, content });
+    navigation.navigate('diary', { date, title, content });
   };
 
   return (
@@ -58,7 +58,7 @@ function AddDiary({ navigation }) {
       <View style={styles.titlebox}>
         <Text style={styles.title}>일기장</Text>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Diary')}>
+      <TouchableOpacity onPress={() => navigation.navigate('diary')}>
         <Image source={cancelIcon} style={styles.cancelIcon} />
       </TouchableOpacity>
       <View style={styles.title_title}>

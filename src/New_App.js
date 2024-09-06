@@ -29,9 +29,9 @@ function DiaryStack() {
       }}
     >
       
-      <Stack.Screen name="Diary" component={Diary} />
-      <Stack.Screen name="AddDiary" component={AddDiary} />
-      <Stack.Screen name="DiaryDetail" component={DiaryDetail} />
+      <Stack.Screen name="diary" component={Diary} />
+      <Stack.Screen name="addDiary" component={AddDiary} />
+      <Stack.Screen name="diaryDetail" component={DiaryDetail} />
     </Stack.Navigator>
   );
 }
@@ -44,8 +44,8 @@ function MyPageStack() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="MyPage" component={MyPage} />
-      <Stack.Screen name="Edit" component={Edit} />
+      <Stack.Screen name="myPage" component={MyPage} />
+      <Stack.Screen name="edit" component={Edit} />
     </Stack.Navigator>
   );
 }

@@ -18,7 +18,7 @@ function Diary({ route, navigation }) {
   }
 
   const moveAddDiary = () => {
-    navigation.navigate('AddDiary');
+    navigation.navigate('addDiary');
   };
 
   const renderDiaryItem = ({ item }) => (

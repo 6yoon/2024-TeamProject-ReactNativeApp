@@ -30,7 +30,7 @@ function Edit({ route, navigation }) {
   }, []);
 
   const handleSave = () => {
-    navigation.navigate('MyPage', {
+    navigation.navigate('myPage', {
       updatedName: name,
       updatedBirth: birth,
       updatedTel: tel,

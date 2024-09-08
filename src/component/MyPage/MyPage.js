@@ -30,7 +30,7 @@ function MyPage({ route, navigation }) {
           <View style={styles.textbox}>
             <Text style={styles.username}>{updatedName}</Text>
             <TouchableOpacity  onPress={() =>
-          navigation.navigate('Edit', {
+          navigation.navigate('edit', {
             updatedName,
             updatedBirth,
             updatedTel,
@@ -105,8 +105,9 @@ const styles = StyleSheet.create({
   },
 
   editIcon: {
-    marginLeft: 90,
-    marginTop:-17,
+    position:'absolute',
+    marginLeft:90,
+    marginTop:60,
   },
 
   joinDate: {

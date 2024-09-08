@@ -18,11 +18,11 @@ function Diary({ route, navigation }) {
   }
 
   const moveAddDiary = () => {
-    navigation.navigate('AddDiary');
+    navigation.navigate('addDiary');
   };
 
   const renderDiaryItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('DiaryDetail', { diary: item })}>
+    <TouchableOpacity onPress={() => navigation.navigate('diaryDetail', { diary: item })}>
       <View style={styles.diarylist}>
         <View style={styles.listdatebox}>
           <Text style={styles.listdatemonth}>{item.date.substring(5, 7)}월</Text>

@@ -30,7 +30,6 @@ function AddDiary({ navigation }) {
     setContent(inputContent);
   };
 
-  // 저장 버튼 클릭 처리 함수
   const handleSave = () => {
     const formattedDate = formatDate(date);
 

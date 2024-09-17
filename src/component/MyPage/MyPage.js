@@ -1,9 +1,17 @@
-import React from 'react';
-import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Image, Text, TouchableOpacity, Switch } from 'react-native';
 import profile from "../../../public/images/profile.jpg";
 import editIcon from "../../../public/images/pencil.png";
+import style from 'react-native-modal-date-picker/style';
 
 function MyPage({ route, navigation }) {
+  // 알림 및 위치 서비스 설정 상태 관리
+  const [isNotificationEnabled, setNotificationEnabled] = useState(false);
+  const [isLocationEnabled, setLocationEnabled] = useState(false);
+
+  const toggleNotificationSwitch = () => setNotificationEnabled(previousState => !previousState);
+  const toggleLocationSwitch = () => setLocationEnabled(previousState => !previousState);
+
   // route.params에서 전달된 데이터 받아오기
   const {
     updatedName = "oloqlon",
@@ -13,8 +21,6 @@ function MyPage({ route, navigation }) {
     date = "2024.04.03",
     updatedProfileImage,
   } = route.params || {};
-
-  
 
   return (
     <View style={styles.mypage}>
@@ -55,9 +61,29 @@ function MyPage({ route, navigation }) {
           <Text style={styles.label}>전화번호</Text>
           <Text style={styles.telNum}>{updatedTel}</Text>
         </View>
+        <View style={styles.alarmbox}>
+          <Text style={styles.label}>알림 설정</Text>
+          <Switch
+          onValueChange={toggleNotificationSwitch}
+          value={isNotificationEnabled}
+          style={[styles.toggleSwitch, { transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }]}
+        />
+        </View>
+        <View style={styles.locationbox}>
+          <Text style={styles.label}>위치 서비스 설정</Text>
+          <Switch
+          onValueChange={toggleLocationSwitch}
+          value={isLocationEnabled}
+          style={[styles.toggleSwitch, { transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }]}
+        />
+        </View>
         <View style={styles.separator} />
       </View>
       <Text style={styles.Logout}>로그아웃</Text>
+      <View style = {styles.mypagefooter}>
+      {/* <Text style = {style.appname}>HowTo</Text> */}
+      <Text style = {styles.version}>현재 앱 버전 2.4.14v</Text>
+      </View>
     </View>
   );
 }
@@ -126,7 +152,7 @@ const styles = StyleSheet.create({
 
   birthbox: {
     flexDirection:'row',
-    marginTop: 30,
+    marginTop: 10,
     fontSize:12,
     
  },
@@ -134,6 +160,8 @@ const styles = StyleSheet.create({
  birthDate: {
   marginLeft: 249,
   fontSize:12,
+  marginTop: 10,
+
  },
 
 telbox: {
@@ -144,6 +172,20 @@ telbox: {
 telNum: {
   marginLeft: 228,
   fontSize:12,
+  marginTop: 10,
+
+},
+
+alarmbox: {
+  flexDirection:'row',
+  marginTop: 10,
+  alignItems: 'center',
+},
+
+locationbox: {
+  flexDirection:'row',
+  marginTop: 10,
+  alignItems: 'center',
 },
 
 separator: {
@@ -160,11 +202,33 @@ Logout: {
   marginLeft: 170,
   fontSize:12,
 },
+
 label: {
   fontSize: 12,
   color: "#686868",
+  marginTop:10,
 },
 
+toggleSwitch: {
+  marginLeft: 'auto',
+},
+
+mypagefooter: {
+  marginTop:100,
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+},
+
+appname:{
+  color:"#686868",
+  fontSize:12,
+},
+
+version:{
+  color:"#686868",
+  fontSize:12,
+}
 
 });
 

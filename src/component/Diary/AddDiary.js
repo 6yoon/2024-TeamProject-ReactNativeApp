@@ -4,9 +4,10 @@ import {
   Keyboard, TouchableWithoutFeedback, Modal, ScrollView
 } from 'react-native';
 import cancelIcon from '../../../public/images/cancel1.png';
+import AddTimeDate from './AddTimeDate';
 
-const saveDiaryEntry = (date, title, content) => {
-  console.log('Diary Entry Saved:', { date, title, content });
+const saveDiaryEntry = (date, title, content, startTime) => {
+  console.log('Diary Entry Saved:', { date, title, content, startTime, endTime });
 };
 
 function AddDiary({ navigation }) {
@@ -14,6 +15,9 @@ function AddDiary({ navigation }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [showModal, setShowModal] = useState(false);
+
+  const [newStartTime, setNewStartTime] = useState([0, 0]);
+  const [newEndTime, setNewEndTime] = useState([0, 0]); 
 
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -30,7 +34,6 @@ function AddDiary({ navigation }) {
     setContent(inputContent);
   };
 
-  // 저장 버튼 클릭 처리 함수
   const handleSave = () => {
     const formattedDate = formatDate(date);
 
@@ -39,11 +42,13 @@ function AddDiary({ navigation }) {
       return;
     }
 
-    saveDiaryEntry(formattedDate, title, content);
-    navigation.navigate('diary', { date: formattedDate, title, content });
+    const startTime = `${newStartTime[0]}:${newStartTime[1]}`;
+    const endTime = `${newEndTime[0]}:${newEndTime[1]}`;
+
+    saveDiaryEntry(formattedDate, title, content, startTime, endTime);
+    navigation.navigate('diary', { date: formattedDate, title, content, startTime, endTime });
   };
 
-  // 날짜 선택 핸들러
   const handleDateSelect = (year, month, day) => {
     const selectedDate = new Date(year, month - 1, day);
     setDate(selectedDate);
@@ -56,15 +61,19 @@ function AddDiary({ navigation }) {
         <View style={styles.titlebox}>
           <Text style={styles.title}>일기장</Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('Diary')}>
+        <TouchableOpacity onPress={() => navigation.navigate('diary')}>
           <Image source={cancelIcon} style={styles.cancelIcon} />
         </TouchableOpacity>
 
         <View style={styles.title_title}>
-          {/* 날짜 선택 버튼 */}
-          <TouchableOpacity onPress={() => setShowModal(true)}>
-            <Text style={styles.datePickerButton}>날짜: {formatDate(date)}</Text>
-          </TouchableOpacity>
+          
+          {/* TimeDate component for time selection */}
+          <AddTimeDate
+          isAllDay={false}
+          noTime={false}
+  
+         
+        />
 
           {/* 날짜 선택 모달 */}
           <Modal
@@ -122,6 +131,7 @@ function AddDiary({ navigation }) {
           />
         </View>
 
+
         <TouchableOpacity style={styles.Button} onPress={handleSave}>
           <Text style={styles.buttonText}>기록하기</Text>
         </TouchableOpacity>
@@ -158,21 +168,17 @@ const styles = StyleSheet.create ({
     color: '#007AFF',
     marginTop: 20,
   },
-
-  monthText:{
-    marginLeft:120,
-    marginTop:30,
-  }, 
-
-  dayText:{
-    marginLeft:30,
-    marginTop:30,
+  monthText: {
+    marginLeft: 120,
+    marginTop: 30,
   },
-
-  modalCloseButton:{
-    marginTop:50,
+  dayText: {
+    marginLeft: 30,
+    marginTop: 30,
   },
-
+  modalCloseButton: {
+    marginTop: 50,
+  },
   title_input: {
     marginTop: 30,
     marginRight: 16,

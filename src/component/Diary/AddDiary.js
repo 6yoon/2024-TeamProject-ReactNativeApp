@@ -6,7 +6,7 @@ import {
 import cancelIcon from '../../../public/images/cancel1.png';
 import AddTimeDate from './AddTimeDate';
 
-const saveDiaryEntry = (date, title, content, startTime, endTime) => {
+const saveDiaryEntry = (date, title, content, startTime) => {
   console.log('Diary Entry Saved:', { date, title, content, startTime, endTime });
 };
 
@@ -61,7 +61,7 @@ function AddDiary({ navigation }) {
         <View style={styles.titlebox}>
           <Text style={styles.title}>일기장</Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('Diary')}>
+        <TouchableOpacity onPress={() => navigation.navigate('diary')}>
           <Image source={cancelIcon} style={styles.cancelIcon} />
         </TouchableOpacity>
 

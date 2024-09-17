@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   listtitle: {
     fontSize: 16,
     marginLeft: 25,
-    marginTop: 18,
+    marginTop: 15,
   },
   list: {
     backgroundColor: '#f5f5f5',

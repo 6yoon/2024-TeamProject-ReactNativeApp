@@ -9,7 +9,7 @@ function DiaryDetail({ route, navigation }) {
   return (
     <View style={styles.container}>
         <Text style={styles.headerTitle}>일기 상세</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Diary')}>
+        <TouchableOpacity onPress={() => navigation.navigate('diary')}>
         <Image source={cancelIcon} style={styles.cancelIcon} />
       </TouchableOpacity>
       <View style={styles.detailContainer}>

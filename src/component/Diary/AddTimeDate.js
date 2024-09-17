@@ -29,6 +29,8 @@ Date.prototype.toString = function () {
   const month = months[this.getMonth()];
   const date = this.getDate();
 
+  // return `${year}년 ${month} ${date}일`;  
+
   let confirmDate = `${year}년 ${month} ${date}일`;
 
   return { confirmDate };
@@ -41,7 +43,6 @@ function AddTimeDate({
   setNewEndDate,
 }) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isDatePickerVisible2, setDatePickerVisibility2] = useState(false);
   const [date, setDate] = useState(new Date());
   const [date2, setDate2] = useState(new Date());
 
@@ -60,20 +61,11 @@ function AddTimeDate({
     hideDatePicker();
   };
 
-  const showDatePicker2 = () => {
-    setDatePickerVisibility2(true);
-  };
 
   const hideDatePicker2 = () => {
     setDatePickerVisibility2(false);
   };
 
-  const handleDateConfirm2 = (confirmDate) => {
-    if (confirmDate <= date)
-      Alert.alert("경고", "시작 날짜 이전은 선택할 수 없습니다.");
-    else setDate2(confirmDate);
-    hideDatePicker2();
-  };
 
   return (
     <>
@@ -121,7 +113,9 @@ dateText:{
 touchedDateText: {
     marginLeft:12,
     
-}
+},
+
+
 
 });
 
